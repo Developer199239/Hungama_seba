@@ -1,25 +1,28 @@
-package bubtjobs.com.hungama;
+package bubtjobs.com.hungama.Activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import bubtjobs.com.hungama.Fragment.DiscoverFragment;
+import bubtjobs.com.hungama.Fragment.NewMusicFragment;
+import bubtjobs.com.hungama.Fragment.PopularMusicFragment;
+import bubtjobs.com.hungama.Fragment.RadioFragment;
+import bubtjobs.com.hungama.Fragment.VideosFragment;
+import bubtjobs.com.hungama.R;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -54,16 +57,11 @@ public class Home extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new OneFragment(), "ONE");
-        adapter.addFrag(new TwoFragment(), "TWO");
-        adapter.addFrag(new ThreeFragment(), "THREE");
-        adapter.addFrag(new FourFragment(), "FOUR");
-        adapter.addFrag(new FiveFragment(), "FIVE");
-        adapter.addFrag(new SixFragment(), "SIX");
-        adapter.addFrag(new SevenFragment(), "SEVEN");
-        adapter.addFrag(new EightFragment(), "EIGHT");
-        adapter.addFrag(new NineFragment(), "NINE");
-        adapter.addFrag(new TenFragment(), "TEN");
+        adapter.addFrag(new VideosFragment(), "Videos");
+        adapter.addFrag(new NewMusicFragment(), "New Music");
+        adapter.addFrag(new RadioFragment(), "Radio");
+        adapter.addFrag(new PopularMusicFragment(), "Popular Music");
+        adapter.addFrag(new DiscoverFragment(), "Discover");
         viewPager.setAdapter(adapter);
     }
 
