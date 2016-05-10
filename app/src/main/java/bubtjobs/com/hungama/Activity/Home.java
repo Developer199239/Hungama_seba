@@ -1,5 +1,6 @@
 package bubtjobs.com.hungama.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -35,30 +36,16 @@ public class Home extends AppCompatActivity
     private TabLayout tabLayout;
     private ViewPager viewPager;
     Spinner country_music;
+    boolean check=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        check=false;
         // toolbar
         toolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         country_music = (Spinner)toolbar.findViewById(R.id.country_music);
-        country_music.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String country_musi = (String) parent.getItemAtPosition(position);
-                Toast.makeText(Home.this, ""+country_musi, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
-
 
         // viewPager
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -67,6 +54,23 @@ public class Home extends AppCompatActivity
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+
+
+        country_music.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                    String country_musi = (String) parent.getItemAtPosition(position);
+                    Toast.makeText(Home.this, "" + country_musi, Toast.LENGTH_SHORT).show();
+                    viewPager.setCurrentItem(2);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -86,7 +90,9 @@ public class Home extends AppCompatActivity
         adapter.addFrag(new RadioFragment(), "Radio");
         adapter.addFrag(new PopularMusicFragment(), "Popular Music");
         adapter.addFrag(new DiscoverFragment(), "Discover");
+        adapter.notifyDataSetChanged();
         viewPager.setAdapter(adapter);
+
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -158,16 +164,6 @@ public class Home extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
