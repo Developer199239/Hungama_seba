@@ -27,6 +27,7 @@ import bubtjobs.com.hungama.Fragment.NewMusicFragment;
 import bubtjobs.com.hungama.Fragment.PopularMusicFragment;
 import bubtjobs.com.hungama.Fragment.RadioFragment;
 import bubtjobs.com.hungama.Fragment.VideosFragment;
+import bubtjobs.com.hungama.Others.SessionManager;
 import bubtjobs.com.hungama.R;
 
 public class Home extends AppCompatActivity
@@ -37,32 +38,29 @@ public class Home extends AppCompatActivity
     private ViewPager viewPager;
     Spinner country_music;
     boolean check=false;
+
+    SessionManager sessionManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        check=false;
-        // toolbar
-        toolbar= (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        country_music = (Spinner)toolbar.findViewById(R.id.country_music);
 
-        // viewPager
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
+        init();
 
 
 
         country_music.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                    String country_musi = (String) parent.getItemAtPosition(position);
-                    Toast.makeText(Home.this, "" + country_musi, Toast.LENGTH_SHORT).show();
-                    viewPager.setCurrentItem(2);
+                    if(check) {
+                        String country_musi = (String) parent.getItemAtPosition(position);
+                        Toast.makeText(Home.this, "" + country_musi, Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(Home.this,Home.class));
+                        finish();
+                    }
+                else{
+                        check=true;
+                    }
 
             }
 
@@ -82,6 +80,23 @@ public class Home extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    public void init(){
+        // toolbar
+        toolbar= (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        country_music = (Spinner)toolbar.findViewById(R.id.country_music);
+
+        // viewPager
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+        viewPager.setOffscreenPageLimit(1);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+        check=false;
+        sessionManager=new SessionManager(Home.this);
+    }
+
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -90,7 +105,7 @@ public class Home extends AppCompatActivity
         adapter.addFrag(new RadioFragment(), "Radio");
         adapter.addFrag(new PopularMusicFragment(), "Popular Music");
         adapter.addFrag(new DiscoverFragment(), "Discover");
-        adapter.notifyDataSetChanged();
+        //adapter.notifyDataSetChanged();
         viewPager.setAdapter(adapter);
 
     }
