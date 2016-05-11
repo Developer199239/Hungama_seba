@@ -9,11 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import bubtjobs.com.hungama.Activity.VideoPlayer;
 import bubtjobs.com.hungama.Model.Video;
 import bubtjobs.com.hungama.Others.Common_Url;
 import bubtjobs.com.hungama.R;
@@ -61,6 +63,8 @@ public class VideoAdapter extends ArrayAdapter<Video> {
         }
 
 
+
+
         String imagePath=common_url.imageVideo()+videoList.get(position).getFileName()+".png";
 
         Log.i("imagePaht",imagePath);
@@ -75,7 +79,18 @@ public class VideoAdapter extends ArrayAdapter<Video> {
         viewHolder.songName_tx.setText(videoList.get(position).getSongName());
         viewHolder.movieName_tx.setText(videoList.get(position).getMovieName());
 
-       // viewHolder.des_tv.setText(tipsList.get(position).getDes());
+
+        viewHolder.video_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, ""+videoList.get(position).getFileName()+" === size "+videoList.size(), Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(context, VideoPlayer.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+
+            }
+        });
+
         return convertView;
     }
 }

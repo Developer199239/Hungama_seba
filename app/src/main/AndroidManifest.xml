@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="bubtjobs.com.hungama">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".Volly.AppController"
         android:allowBackup="true"
@@ -20,7 +22,11 @@
         <activity
             android:name=".Activity.Home"
             android:label=""
-            android:theme="@style/MyMaterialTheme"></activity>
+            android:theme="@style/MyMaterialTheme" />
+
+        <activity android:name=".Activity.VideoPlayer"
+            android:parentActivityName=".Activity.Home"
+            />
     </application>
 
 </manifest>
