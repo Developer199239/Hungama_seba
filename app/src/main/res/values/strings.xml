@@ -9,13 +9,7 @@
 
 
     <string-array name="country">
+        <item>Bengali</item>
         <item>Hindi</item>
-        <item>Old Hindi</item>
-        <item>Punjabi</item>
-        <item>Telugu</item>
-        <item>Tamil</item>
-        <item>Kannada</item>
-        <item>Malayalam</item>
-        <item>Benali</item>
     </string-array>
 </resources>

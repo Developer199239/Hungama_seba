@@ -52,9 +52,11 @@ public class Home extends AppCompatActivity
         country_music.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String music_type = (String) parent.getItemAtPosition(position);
                     if(check) {
-                        String country_musi = (String) parent.getItemAtPosition(position);
-                        Toast.makeText(Home.this, "" + country_musi, Toast.LENGTH_SHORT).show();
+
+                       // Toast.makeText(Home.this, "" + music_type, Toast.LENGTH_SHORT).show();
+                        sessionManager.setMusicType(music_type);
                         startActivity(new Intent(Home.this,Home.class));
                         finish();
                     }
@@ -81,10 +83,19 @@ public class Home extends AppCompatActivity
     }
 
     public void init(){
+        check=false;
+        sessionManager=new SessionManager(Home.this);
         // toolbar
         toolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         country_music = (Spinner)toolbar.findViewById(R.id.country_music);
+        if(sessionManager.getMusicType().equals("Bengali"))
+        {
+           country_music.setSelection(0);
+        }
+        else{
+            country_music.setSelection(1);
+        }
 
         // viewPager
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -93,8 +104,7 @@ public class Home extends AppCompatActivity
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-        check=false;
-        sessionManager=new SessionManager(Home.this);
+
     }
 
 

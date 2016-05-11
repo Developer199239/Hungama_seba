@@ -13,6 +13,7 @@ public class SessionManager {
 	int PRIVATE_MODE=0;
 	private static final String PREF_NAME="hungama";
 	private static final String CURRENT_FRAGMENT="current_fragment";
+	private static final String SONG_TYPE="song_type";
 
 	//constructor
 	public SessionManager(Context _context) {
@@ -21,13 +22,21 @@ public class SessionManager {
 		editor=perf.edit();
 	}
 
-	// emergency Number
+	//
 	public void setCurrentFragment(String frag){
 		editor.putString(CURRENT_FRAGMENT,frag);
 		editor.commit();
 	}
 	public String getCurrentFragment(){
 		return perf.getString(CURRENT_FRAGMENT,"0");
+	}
+
+	public void setMusicType(String songType){
+		editor.putString(SONG_TYPE,songType);
+		editor.commit();
+	}
+	public String getMusicType(){
+		return perf.getString(SONG_TYPE,"Bengali");
 	}
 	
 

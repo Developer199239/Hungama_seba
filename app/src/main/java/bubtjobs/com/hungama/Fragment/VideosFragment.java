@@ -61,6 +61,7 @@ public class VideosFragment extends Fragment{
         alertDialogManager=new AlertDialogManager();
         common_url=new Common_Url();
         dataBaseManager=new DataBaseManager(getActivity());
+        sessionManager=new SessionManager(getActivity());
        videoArrayList=new ArrayList<>();
 
 //
@@ -146,7 +147,7 @@ public class VideosFragment extends Fragment{
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("type", "Bengali");
+                params.put("type", sessionManager.getMusicType());
                 return params;
             }
 
