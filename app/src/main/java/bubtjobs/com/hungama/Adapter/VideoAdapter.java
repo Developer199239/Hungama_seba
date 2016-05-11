@@ -29,11 +29,13 @@ public class VideoAdapter extends ArrayAdapter<Video> {
     private Context context;
     Common_Url common_url;
 
+
     public VideoAdapter(Context context, ArrayList<Video> videoList) {
         super(context, R.layout.video_custom_row, videoList);
         this.context = context;
         this.videoList = videoList;
         common_url=new Common_Url();
+
     }
 
     static class ViewHolder {
@@ -83,9 +85,13 @@ public class VideoAdapter extends ArrayAdapter<Video> {
         viewHolder.video_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, ""+videoList.get(position).getFileName()+" === size "+videoList.size(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(context, ""+videoList.get(position).getFileName()+" === size "+videoList.size(), Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(context, VideoPlayer.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("postion", String.valueOf(position));
+                intent.putExtra("fileName",videoList.get(position).getFileName());
+                intent.putExtra("songName",videoList.get(position).getSongName());
+                intent.putExtra("movieName",videoList.get(position).getMovieName());
                 context.startActivity(intent);
 
             }

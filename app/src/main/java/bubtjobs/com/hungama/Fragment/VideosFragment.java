@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import bubtjobs.com.hungama.Adapter.VideoAdapter;
+import bubtjobs.com.hungama.DataBase.DataBaseManager;
 import bubtjobs.com.hungama.Model.Video;
 import bubtjobs.com.hungama.Others.AlertDialogManager;
 import bubtjobs.com.hungama.Others.CommonFunction;
@@ -41,6 +42,7 @@ public class VideosFragment extends Fragment{
     AlertDialogManager alertDialogManager;
     Common_Url common_url;
     ListView songListView;
+    DataBaseManager dataBaseManager;
 
     Video video;
     ArrayList<Video> videoArrayList;
@@ -58,6 +60,7 @@ public class VideosFragment extends Fragment{
         commonFunction=new CommonFunction();
         alertDialogManager=new AlertDialogManager();
         common_url=new Common_Url();
+        dataBaseManager=new DataBaseManager(getActivity());
        videoArrayList=new ArrayList<>();
 
 //
@@ -113,10 +116,12 @@ public class VideosFragment extends Fragment{
 
 
 
-                        Toast.makeText(getActivity(),"Update Successfully",Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getActivity(),"Update Successfully",Toast.LENGTH_LONG).show();
 
                         if(videoArrayList!=null && videoArrayList.size()>0)
                         {
+                            boolean isinsert=dataBaseManager.addVideoList(videoArrayList);
+                           // Log.i("insert=== videolist",""+isinsert);
                             VideoAdapter adpater=new VideoAdapter(getActivity(),videoArrayList);
                             songListView.setAdapter(adpater);
                         }
