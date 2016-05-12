@@ -8,6 +8,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import bubtjobs.com.hungama.Model.NewMusic;
 import bubtjobs.com.hungama.Model.Video;
 
 /**
@@ -71,6 +72,62 @@ public class DataBaseManager {
                 String movieName=cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_MOVIE_NAME));
                video=new Video(fileName,songName,movieName);
                 videoList.add(video);
+                cursor.moveToNext();
+            }
+        }
+        this.close();
+        return videoList;
+    }
+
+    //======== newMusic List========
+    public boolean addNewMusicList(ArrayList<NewMusic> arrayList){
+        try{
+            this.open();
+            database.execSQL("DROP TABLE IF EXISTS " +DatabaseHelper.TABLE_NEW_MUSIC_LIST);
+            database.execSQL(DatabaseHelper.CREATE_NEW_MUSIC_LIST);
+
+            for(NewMusic obj:arrayList)
+            {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(DatabaseHelper.COL_FILE_NAME,obj.getFileName());
+                contentValues.put(DatabaseHelper.COL_SONG_NAME,obj.getSongName());
+                contentValues.put(DatabaseHelper.COL_MOVIE_NAME,obj.getMovieName());
+                contentValues.put(DatabaseHelper.COL_MOVIE_CODE,obj.getMovie_code());
+                contentValues.put(DatabaseHelper.COL_TYPE,obj.getType());
+                long inserted = database.insert(DatabaseHelper.TABLE_NEW_MUSIC_LIST, null, contentValues);
+
+            }
+
+
+            this.close();
+            return true;
+        }
+        catch (Exception e){
+            //Log.i("error",e.toString());
+            return  false;
+        }
+
+    }
+
+    public ArrayList<NewMusic> getSingleMovieName(){
+        this.open();
+        ArrayList<NewMusic> videoList=new ArrayList<>();
+        NewMusic newMusic;
+        //String query="SELECT * FROM "+DatabaseHelper.TABLE_NEW_MUSIC_LIST;
+        String query="SELECT * FROM "+DatabaseHelper.TABLE_NEW_MUSIC_LIST+" GROUP BY "+DatabaseHelper.COL_MOVIE_CODE;
+        Cursor cursor=database.rawQuery(query, null);
+        cursor.moveToFirst();
+
+        if(cursor!=null && cursor.getCount()>0){
+            for(int i=0;i<cursor.getCount();i++)
+            {
+                String fileName=cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_FILE_NAME));
+                String songName=cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_SONG_NAME));
+                String movieName=cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_MOVIE_NAME));
+                String movieCode=cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_MOVIE_CODE));
+                String type=cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_TYPE));
+                newMusic=new NewMusic(type,fileName,songName,movieName,movieCode);
+                videoList.add(newMusic);
                 cursor.moveToNext();
             }
         }

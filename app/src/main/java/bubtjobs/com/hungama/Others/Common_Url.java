@@ -24,5 +24,10 @@ public class Common_Url {
 
     }
 
+    public String imageNewMusic(){
+        // return "http://bubtjobs.com/hungama/image/NewMusic/";
+        return "http://10.0.3.2:8080/hungama/image/NewMusic/";
+    }
+
 
 }

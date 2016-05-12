@@ -12,14 +12,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static  final int DATABASE_VERSION=1;
     static  final String DATABASE_NAME="hungama";
 
-    // table user
+    // table videoPlayList
     static  final String TABLE_VIDEO_PLAY_LIST="videoPlayList";
     static final String COL_ID="id";
     static final String COL_FILE_NAME="fileName";
     static final String COL_SONG_NAME="songName";
     static final String COL_MOVIE_NAME="movieName";
-    //crate table user
+    // table new Music list
+    static  final String TABLE_NEW_MUSIC_LIST="newMusicList";
+    static final String COL_MOVIE_CODE="movieCode";
+    static final String COL_TYPE="type";
+
+    //crate table video play list
    static final String CREATE_VIDEO_PLAY_LIST=" CREATE TABLE " + TABLE_VIDEO_PLAY_LIST + " ( " + COL_ID +" INTEGER PRIMARY KEY," + COL_FILE_NAME +" TEXT," +COL_SONG_NAME +" TEXT,"+COL_MOVIE_NAME +" TEXT)";
+
+    //crate table newMusic play list
+    static final String CREATE_NEW_MUSIC_LIST=" CREATE TABLE " + TABLE_NEW_MUSIC_LIST + " ( " + COL_ID +" INTEGER PRIMARY KEY," + COL_FILE_NAME +" TEXT," +COL_SONG_NAME +" TEXT,"+COL_MOVIE_NAME +" TEXT,"+COL_TYPE +" TEXT,"+COL_MOVIE_CODE +" TEXT)";
 
 
     public DatabaseHelper(Context context) {
@@ -31,6 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_VIDEO_PLAY_LIST);
+        db.execSQL(CREATE_NEW_MUSIC_LIST);
 
     }
 

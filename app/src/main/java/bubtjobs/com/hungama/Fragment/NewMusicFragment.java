@@ -20,11 +20,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import bubtjobs.com.hungama.Adapter.NewMusicAdapter;
 import bubtjobs.com.hungama.Adapter.VideoAdapter;
 import bubtjobs.com.hungama.DataBase.DataBaseManager;
+import bubtjobs.com.hungama.Model.NewMusic;
 import bubtjobs.com.hungama.Model.Video;
 import bubtjobs.com.hungama.Others.AlertDialogManager;
 import bubtjobs.com.hungama.Others.CommonFunction;
@@ -43,10 +46,13 @@ public class NewMusicFragment extends Fragment{
     ListView songListView;
     DataBaseManager dataBaseManager;
 
+    NewMusic newMusic;
+    ArrayList<NewMusic> musicArrayList;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_new_music, container, false);
-
+        songListView=(ListView)view.findViewById(R.id.songListView);
         init();
 
         return view;
@@ -57,6 +63,8 @@ public class NewMusicFragment extends Fragment{
         common_url=new Common_Url();
         dataBaseManager=new DataBaseManager(getActivity());
         sessionManager=new SessionManager(getActivity());
+        musicArrayList=new ArrayList<>();
+
 
         if(commonFunction.isNetworkAvailable(getActivity()))
         {
@@ -87,6 +95,8 @@ public class NewMusicFragment extends Fragment{
                     Log.i("json", obj.toString());
                     if(obj.getInt("success")==1)
                     {
+                        String type=sessionManager.getMusicType();
+
                         JSONArray songlist=obj.optJSONArray("songrow");
 
                         for(int i=0;i<songlist.length();i++)
@@ -99,9 +109,36 @@ public class NewMusicFragment extends Fragment{
                             String movieName=songRow.getString("movieName");
                             String movie_code=songRow.getString("movie_code");
 
-//                            video=new Video(fileName,songName,movieName);
-//                            videoArrayList.add(video);
+                            newMusic=new NewMusic(type,fileName,songName,movieName,movie_code);
+                            musicArrayList.add(newMusic);
 
+                        }
+
+                        if(musicArrayList!=null && musicArrayList.size()>0)
+                        {
+                            boolean isinsert=dataBaseManager.addNewMusicList(musicArrayList);
+
+                            if(isinsert)
+                            {
+                               musicArrayList=new ArrayList<>();
+                                musicArrayList=dataBaseManager.getSingleMovieName();
+                                if(musicArrayList!=null && musicArrayList.size()>0)
+                                {
+                                    Toast.makeText(getActivity(), ""+musicArrayList.size(), Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    Toast.makeText(getActivity(), "New Music List not found", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            else{
+                                Toast.makeText(getActivity(), "ok1", Toast.LENGTH_SHORT).show();
+                            }
+
+//                            NewMusicAdapter adpater=new NewMusicAdapter(getActivity(),musicArrayList);
+//                            songListView.setAdapter(adpater);
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "ok", Toast.LENGTH_SHORT).show();
                         }
 
 

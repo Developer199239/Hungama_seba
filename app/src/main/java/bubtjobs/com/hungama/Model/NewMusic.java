@@ -12,7 +12,7 @@ public class NewMusic {
     private String movie_code;
 
     public NewMusic(){
-        
+
     }
 
     public NewMusic(String type, String fileName, String songName, String movieName, String movie_code) {
