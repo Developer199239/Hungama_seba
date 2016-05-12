@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import bubtjobs.com.hungama.DataBase.DataBaseManager;
 import bubtjobs.com.hungama.Model.Video;
+import bubtjobs.com.hungama.Others.Common_Url;
 import bubtjobs.com.hungama.R;
 
 public class VideoPlayer extends AppCompatActivity{
@@ -32,6 +33,7 @@ public class VideoPlayer extends AppCompatActivity{
     String songName="";
     private ArrayList<Video> videoList;
     DataBaseManager dataBaseManager;
+    Common_Url common_url;
 
 
     @Override
@@ -41,7 +43,7 @@ public class VideoPlayer extends AppCompatActivity{
 
         videoList=new ArrayList<>();
         dataBaseManager=new DataBaseManager(VideoPlayer.this);
-
+        common_url=new Common_Url();
 
         Intent intent=getIntent();
 
@@ -62,7 +64,8 @@ public class VideoPlayer extends AppCompatActivity{
         movieName_tx.setText("Movie Name: "+movieName);
 
 
-        String videoSongPath="http://bubtjobs.com/hungama/video/"+fileName+".3gp";
+       // String videoSongPath="http://bubtjobs.com/hungama/video/"+fileName+".3gp";
+         String videoSongPath=common_url.videoPath()+fileName+".3gp";
 
         videoView.setVideoPath(videoSongPath);
         MediaController mediaController = new MediaController(this);
@@ -96,7 +99,7 @@ public class VideoPlayer extends AppCompatActivity{
                     songName_tx.setText("Song Name: "+videoList.get(postion).getSongName());
                     movieName_tx.setText("Movie Name: "+videoList.get(postion).getMovieName());
 
-                    String videoSongPath="http://bubtjobs.com/hungama/video/"+fileName+".3gp";
+                    String videoSongPath=common_url.videoPath()+fileName+".3gp";
                     videoView.setVideoPath(videoSongPath);
                     MediaController mediaController = new
                             MediaController(VideoPlayer.this);
