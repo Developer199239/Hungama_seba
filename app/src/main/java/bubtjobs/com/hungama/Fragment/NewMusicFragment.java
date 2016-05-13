@@ -124,21 +124,24 @@ public class NewMusicFragment extends Fragment{
                                 musicArrayList=dataBaseManager.getSingleMovieName();
                                 if(musicArrayList!=null && musicArrayList.size()>0)
                                 {
-                                    Toast.makeText(getActivity(), ""+musicArrayList.size(), Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getActivity(), ""+musicArrayList.size(), Toast.LENGTH_SHORT).show();
+                                    NewMusicAdapter adapter=new NewMusicAdapter(getActivity(),musicArrayList);
+                                    songListView.setAdapter(adapter);
+
                                 }
                                 else{
                                     Toast.makeText(getActivity(), "New Music List not found", Toast.LENGTH_SHORT).show();
                                 }
                             }
                             else{
-                                Toast.makeText(getActivity(), "ok1", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "New Music List not found", Toast.LENGTH_SHORT).show();
                             }
 
 //                            NewMusicAdapter adpater=new NewMusicAdapter(getActivity(),musicArrayList);
 //                            songListView.setAdapter(adpater);
                         }
                         else{
-                            Toast.makeText(getActivity(), "ok", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "New Music List not found", Toast.LENGTH_SHORT).show();
                         }
 
 

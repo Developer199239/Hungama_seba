@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import bubtjobs.com.hungama.Activity.MusicPlayer;
 import bubtjobs.com.hungama.Activity.VideoPlayer;
 import bubtjobs.com.hungama.Model.NewMusic;
 import bubtjobs.com.hungama.Model.Video;
@@ -83,7 +84,7 @@ public class NewMusicAdapter extends ArrayAdapter<NewMusic> {
         viewHolder.music_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "" + newMusicList.get(position).getFileName() + " === size " + newMusicList.size(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, "" + newMusicList.get(position).getFileName() + " === size " + newMusicList.size(), Toast.LENGTH_SHORT).show();
 //                Intent intent=new Intent(context, VideoPlayer.class);
 //                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                intent.putExtra("postion", String.valueOf(position));
@@ -91,6 +92,11 @@ public class NewMusicAdapter extends ArrayAdapter<NewMusic> {
 //                intent.putExtra("songName",videoList.get(position).getSongName());
 //                intent.putExtra("movieName",videoList.get(position).getMovieName());
 //                context.startActivity(intent);
+
+                Intent intent=new Intent(context, MusicPlayer.class);
+                intent.putExtra("movie_code",newMusicList.get(position).getMovie_code());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
 
             }
         });

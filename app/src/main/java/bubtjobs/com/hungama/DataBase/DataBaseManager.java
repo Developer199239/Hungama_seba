@@ -134,4 +134,34 @@ public class DataBaseManager {
         this.close();
         return videoList;
     }
+
+
+    // audio play list
+    // 1= make audio play list for current movie
+    // 2= add audio play list
+    // 3= get audio play list
+    public ArrayList<NewMusic> makeAudioPlayList(String movie_code){
+        this.open();
+        ArrayList<NewMusic> List=new ArrayList<>();
+        NewMusic newMusic;
+        String query="SELECT * FROM "+DatabaseHelper.TABLE_NEW_MUSIC_LIST+" where "+DatabaseHelper.COL_MOVIE_CODE+" = "+movie_code;
+        Cursor cursor=database.rawQuery(query, null);
+        cursor.moveToFirst();
+
+        if(cursor!=null && cursor.getCount()>0){
+            for(int i=0;i<cursor.getCount();i++)
+            {
+                String fileName=cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_FILE_NAME));
+                String songName=cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_SONG_NAME));
+                String movieName=cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_MOVIE_NAME));
+                String movieCode=cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_MOVIE_CODE));
+                String type=cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_TYPE));
+                newMusic=new NewMusic(type,fileName,songName,movieName,movieCode);
+                List.add(newMusic);
+                cursor.moveToNext();
+            }
+        }
+        this.close();
+        return List;
+    }
 }

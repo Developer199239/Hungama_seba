@@ -23,10 +23,14 @@
             android:name=".Activity.Home"
             android:label=""
             android:theme="@style/MyMaterialTheme" />
-
-        <activity android:name=".Activity.VideoPlayer"
+        <activity
+            android:name=".Activity.VideoPlayer"
+            android:parentActivityName=".Activity.Home" />
+        <activity android:name=".Activity.MusicPlayer"
             android:parentActivityName=".Activity.Home"
-            />
+            >
+
+        </activity>
     </application>
 
 </manifest>

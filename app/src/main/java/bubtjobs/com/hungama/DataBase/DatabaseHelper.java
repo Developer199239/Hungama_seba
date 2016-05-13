@@ -23,12 +23,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final String COL_MOVIE_CODE="movieCode";
     static final String COL_TYPE="type";
 
+    // table audio playList
+    static  final String TABLE_AUDIO_PLAY_LIST="audioPlayList";
+
     //crate table video play list
    static final String CREATE_VIDEO_PLAY_LIST=" CREATE TABLE " + TABLE_VIDEO_PLAY_LIST + " ( " + COL_ID +" INTEGER PRIMARY KEY," + COL_FILE_NAME +" TEXT," +COL_SONG_NAME +" TEXT,"+COL_MOVIE_NAME +" TEXT)";
 
-    //crate table newMusic play list
+    //create table newMusic play list
     static final String CREATE_NEW_MUSIC_LIST=" CREATE TABLE " + TABLE_NEW_MUSIC_LIST + " ( " + COL_ID +" INTEGER PRIMARY KEY," + COL_FILE_NAME +" TEXT," +COL_SONG_NAME +" TEXT,"+COL_MOVIE_NAME +" TEXT,"+COL_TYPE +" TEXT,"+COL_MOVIE_CODE +" TEXT)";
 
+    // create table audio play list
+    static final String CREATE_AUDIO_PLAY_LIST=" CREATE TABLE " + TABLE_AUDIO_PLAY_LIST + " ( " + COL_ID +" INTEGER PRIMARY KEY," + COL_FILE_NAME +" TEXT," +COL_SONG_NAME +" TEXT,"+COL_MOVIE_NAME +" TEXT,"+COL_TYPE +" TEXT,"+COL_MOVIE_CODE +" TEXT)";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -40,6 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_VIDEO_PLAY_LIST);
         db.execSQL(CREATE_NEW_MUSIC_LIST);
+        db.execSQL(CREATE_AUDIO_PLAY_LIST);
 
     }
 
