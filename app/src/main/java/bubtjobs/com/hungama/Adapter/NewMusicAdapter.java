@@ -96,7 +96,6 @@ public class NewMusicAdapter extends ArrayAdapter<NewMusic> {
 //                intent.putExtra("songName",videoList.get(position).getSongName());
 //                intent.putExtra("movieName",videoList.get(position).getMovieName());
 //                context.startActivity(intent);
-                sessionManager.setDelay("0");
                 Intent intent=new Intent(context, HomeActivity.class);
                 intent.putExtra("movie_code",newMusicList.get(position).getMovie_code());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

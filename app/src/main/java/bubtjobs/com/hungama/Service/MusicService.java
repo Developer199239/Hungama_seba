@@ -154,7 +154,7 @@ public class MusicService  extends Service implements MediaPlayer.OnPreparedList
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-
+        sessionManager.setAudioLoad("1");
         if(player.getCurrentPosition()>0){
             mp.reset();
             playNext();
@@ -176,6 +176,8 @@ public class MusicService  extends Service implements MediaPlayer.OnPreparedList
     @Override
     public void onPrepared(MediaPlayer mp) {
         mp.start();
+        sessionManager.setAudioLoad("0");
+
         Intent notIntent = new Intent(this, MusicPlayer.class);
         notIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendInt = PendingIntent.getActivity(this, 0,
@@ -202,6 +204,7 @@ public class MusicService  extends Service implements MediaPlayer.OnPreparedList
     }
 
     public int getDur(){
+
         return player.getDuration();
     }
 
@@ -224,6 +227,7 @@ public class MusicService  extends Service implements MediaPlayer.OnPreparedList
         player.start();
     }
     public void playPrev(){
+        sessionManager.setAudioLoad("1");
         if(repeat)
         {
             playSong();
@@ -250,9 +254,7 @@ public class MusicService  extends Service implements MediaPlayer.OnPreparedList
 
     //skip to next
     public void playNext() {
-
-        sessionManager.setDelay("1");
-
+        sessionManager.setAudioLoad("1");
         if (repeat) {
             playSong();
         }

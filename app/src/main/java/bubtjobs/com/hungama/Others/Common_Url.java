@@ -10,12 +10,12 @@ public class Common_Url {
         return "http://10.0.3.2:8080/hungama/api/getVideoList";
     }
     public String newMusicUrl(){
-        //return "http://bubtjobs.com/hungama/api/getVideoList";
+        //return "http://bubtjobs.com/hungama/api/getNewMusicList";
         return "http://10.0.3.2:8080/hungama/api/getNewMusicList";
     }
     //path
     public String imageVideo(){
-       // return "http://bubtjobs.com/hungama/image/video/";
+        //return "http://bubtjobs.com/hungama/image/video/";
         return "http://10.0.3.2:8080/hungama/image/video/";
     }
     public String videoPath(){
@@ -25,7 +25,7 @@ public class Common_Url {
     }
 
     public String imageNewMusic(){
-        // return "http://bubtjobs.com/hungama/image/NewMusic/";
+         //return "http://bubtjobs.com/hungama/image/NewMusic/";
         return "http://10.0.3.2:8080/hungama/image/NewMusic/";
     }
 

@@ -31,7 +31,7 @@ import bubtjobs.com.hungama.Others.Utilities;
 import bubtjobs.com.hungama.R;
 import bubtjobs.com.hungama.Service.MusicService;
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener{
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener,SeekBar.OnSeekBarChangeListener{
 
     ImageButton songListBt,shuffleBt,repeatBt,preBt,playBt,nextBt;
     ImageView background;
@@ -68,8 +68,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             playIntent = new Intent(this, MusicService.class);
             bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
             startService(playIntent);
+
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
     @Override
     protected void onDestroy() {
         //sessionManager.setId(String.valueOf(musicSrv.reSongPos()),isShuffle,isRepeat);
@@ -89,6 +97,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             //pass list
             musicSrv.setList(songList);
             musicBound = true;
+
+            sessionManager.setAudioLoad("1");
+            musicSrv.setSong(0);
+            musicSrv.playSong();
+            songProgressBar.setProgress(0);
+            songProgressBar.setMax(100);
+            updateProgressBar();
         }
 
         @Override
@@ -123,7 +138,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         preBt.setOnClickListener(this);
         playBt.setOnClickListener(this);
         nextBt.setOnClickListener(this);
-//        songProgressBar.setOnSeekBarChangeListener(this);
+        songProgressBar.setOnSeekBarChangeListener(this);
         songList = new ArrayList<NewMusic>();
         getSongList();
 
@@ -139,7 +154,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         if(songList!=null )
         {
-            Toast.makeText(HomeActivity.this, ""+songList.size(), Toast.LENGTH_SHORT).show();
+
+
         }
     }
 
@@ -150,45 +166,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
          if(v.getId()==R.id.shuffleBt)
         {
-           // Toast.makeText(HomeActivity.this, "Shuffle", Toast.LENGTH_SHORT).show();
-            if(isShuffle) {
-                musicSrv.setSuffle();
-                isShuffle = false;
-                Toast.makeText(getApplicationContext(), "Shuffle is OFF", Toast.LENGTH_SHORT).show();
-                shuffleBt.setImageResource(R.drawable.suffel_off);
-            }
-            else {
-                musicSrv.setSuffle();
-                isShuffle = true;
-                Toast.makeText(getApplicationContext(), "Shuffle is ON", Toast.LENGTH_SHORT).show();
-                // make shuffle to false
-                isRepeat = false;
 
-                shuffleBt.setImageResource(R.drawable.shuffle_on);
-                repeatBt.setImageResource(R.drawable.repeat_off);
-            }
         }
         else if(v.getId()==R.id.repeatBt)
         {
-           // Toast.makeText(HomeActivity.this, "Repeat", Toast.LENGTH_SHORT).show();
-
-            if(isRepeat) {
-                musicSrv.setRepeat();
-                isRepeat = false;
-
-                Toast.makeText(getApplicationContext(), "Repeat is OFF", Toast.LENGTH_SHORT).show();
-                repeatBt.setImageResource(R.drawable.repeat_off);
-            }
-            else{
-                musicSrv.setRepeat();
-                isRepeat = true;
-                Toast.makeText(getApplicationContext(), "Repeat is ON", Toast.LENGTH_SHORT).show();
-                // make shuffle to false
-                isShuffle = false;
-
-                repeatBt.setImageResource(R.drawable.repeat_on);
-                shuffleBt.setImageResource(R.drawable.suffel_off);
-            }
 
         }
         else if(v.getId()==R.id.preBt)
@@ -202,15 +183,17 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if(v.getId()==R.id.playBt)
         {
-            a=true;
-            musicSrv.setSong(0);
-            musicSrv.playSong();
-//            isFirstActivity = false;
-           songProgressBar.setProgress(0);
-            songProgressBar.setMax(100);
-             updateProgressBar();
-
-//            Toast.makeText(HomeActivity.this, "ok", Toast.LENGTH_SHORT).show();
+            if(musicSrv.isPng())
+        {
+            musicSrv.pausePlayer();
+            playBt.setImageResource(R.drawable.play);
+        }
+        else
+        {
+            musicSrv.go();
+            updateProgressBar();
+            playBt.setImageResource(R.drawable.pause);
+        }
 
 
         }
@@ -241,9 +224,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
      * */
     private Runnable mUpdateTimeTask = new Runnable() {
         public void run() {
-            if(sessionManager.getDelay())
+            if(sessionManager.getAudioLoad())
             {
-                new Delay().execute();
+               // new Delay().execute();
             }
             else{
                 long totalDuration = musicSrv.getDur();
@@ -256,7 +239,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             // Updating progress bar
             int progress = (int)(utils.getProgressPercentage(currentDuration, totalDuration));
-            Log.d("Progress", "" + progress +" "+totalDuration+" "+currentDuration);
+           // Log.d("Progress", "" + progress +" "+totalDuration+" "+currentDuration);
             songProgressBar.setProgress(progress);
             }
 
@@ -279,60 +262,29 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     };
 
 
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+    }
 
     @Override
-    protected void onActivityResult(int requestCode,
-                                    int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == 100){
-            int currentSongIndex = data.getExtras().getInt("songIndex");
-            musicSrv.setSong(currentSongIndex);
-            musicSrv.playSong();
-            isFirstActivity = false;
-            songProgressBar.setProgress(0);
-            songProgressBar.setMax(100);
-            updateProgressBar();
-            playBt.setImageResource(R.drawable.pause);
-
-        }
-
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        mHandler.removeCallbacks(mUpdateTimeTask);
     }
 
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        mHandler.removeCallbacks(mUpdateTimeTask);
+        int totalDuration = musicSrv.getDur();
+        int currentPosition = utils.progressToTimer(seekBar.getProgress(), totalDuration);
 
-    public boolean checkNegativeValue(long totalDuration,long currentDuration){
-        int a=(int)totalDuration;
-        int b=(int) currentDuration;
-        if(a<0 || b<0)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        // forward or backward to certain seconds
+        musicSrv.seek(currentPosition);
 
+        // update timer progress again
+        updateProgressBar();
     }
 
-
-    private class Delay extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-
-            sessionManager.setDelay("0");
-
-        }
-    }
 
 
 }
