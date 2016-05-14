@@ -14,6 +14,7 @@ public class SessionManager {
 	private static final String PREF_NAME="hungama";
 	private static final String CURRENT_FRAGMENT="current_fragment";
 	private static final String SONG_TYPE="song_type";
+	private static final String DELAY="delay";
 
 	//constructor
 	public SessionManager(Context _context) {
@@ -38,6 +39,19 @@ public class SessionManager {
 	public String getMusicType(){
 		return perf.getString(SONG_TYPE,"Bengali");
 	}
+
+	public void setDelay(String delay){
+		editor.putString(DELAY,delay);
+		editor.commit();
+	}
+	public  Boolean getDelay(){
+		String delay= perf.getString(DELAY,"0");
+		if(delay.equals("1"))
+			return true;
+		else
+			return false;
+	}
+
 	
 
 

@@ -29,5 +29,14 @@ public class Common_Url {
         return "http://10.0.3.2:8080/hungama/image/NewMusic/";
     }
 
+    public String musicPath(){
+        //return "http://bubtjobs.com/hungama/NewMusic/";
+        return "http://10.0.3.2:8080/hungama/NewMusic/";
+
+    }
+
+
+
+
 
 }

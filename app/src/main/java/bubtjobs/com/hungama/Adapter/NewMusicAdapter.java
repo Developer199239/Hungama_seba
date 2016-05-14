@@ -15,11 +15,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import bubtjobs.com.hungama.Activity.HomeActivity;
 import bubtjobs.com.hungama.Activity.MusicPlayer;
 import bubtjobs.com.hungama.Activity.VideoPlayer;
 import bubtjobs.com.hungama.Model.NewMusic;
 import bubtjobs.com.hungama.Model.Video;
 import bubtjobs.com.hungama.Others.Common_Url;
+import bubtjobs.com.hungama.Others.SessionManager;
 import bubtjobs.com.hungama.R;
 
 /**
@@ -30,6 +32,7 @@ public class NewMusicAdapter extends ArrayAdapter<NewMusic> {
     private ArrayList<NewMusic> newMusicList;
     private Context context;
     Common_Url common_url;
+    SessionManager sessionManager;
 
 
     public NewMusicAdapter(Context context, ArrayList<NewMusic> newMusicList) {
@@ -37,6 +40,7 @@ public class NewMusicAdapter extends ArrayAdapter<NewMusic> {
         this.context = context;
         this.newMusicList = newMusicList;
         common_url=new Common_Url();
+        sessionManager=new SessionManager(context);
 
     }
 
@@ -92,8 +96,8 @@ public class NewMusicAdapter extends ArrayAdapter<NewMusic> {
 //                intent.putExtra("songName",videoList.get(position).getSongName());
 //                intent.putExtra("movieName",videoList.get(position).getMovieName());
 //                context.startActivity(intent);
-
-                Intent intent=new Intent(context, MusicPlayer.class);
+                sessionManager.setDelay("0");
+                Intent intent=new Intent(context, HomeActivity.class);
                 intent.putExtra("movie_code",newMusicList.get(position).getMovie_code());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
