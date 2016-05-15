@@ -4,6 +4,9 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -33,6 +36,17 @@ public class PlayList extends ListActivity {
             SongAdapter adapter=new SongAdapter(getApplicationContext(),musicArrayList);
             setListAdapter(adapter);
             ListView lv = getListView();
+
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //String fileName=musicArrayList.get(position).getFileName();
+                    Intent intent=new Intent(getApplicationContext(),AudioPlayer.class);
+                    intent.putExtra("position",position);
+                    setResult(2, intent);
+                    finish();
+                }
+            });
         }
     }
 
@@ -40,6 +54,7 @@ public class PlayList extends ListActivity {
 
         Intent intent=getIntent();
         movie_code=intent.getStringExtra("movie_code");
+        Log.i("movie_code",movie_code);
         dataBaseManager=new DataBaseManager(PlayList.this);
         musicArrayList=new ArrayList<>();
 

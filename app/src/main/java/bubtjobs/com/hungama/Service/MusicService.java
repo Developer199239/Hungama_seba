@@ -1,22 +1,25 @@
 package bubtjobs.com.hungama.Service;
 
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import java.util.ArrayList;
-import android.content.ContentUris;
+
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.PowerManager;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import java.util.Random;
 import android.app.Notification;
 import android.app.PendingIntent;
 
-import bubtjobs.com.hungama.Activity.MusicPlayer;
+import bubtjobs.com.hungama.Activity.AudioPlayer;
+import bubtjobs.com.hungama.Activity.Home;
 import bubtjobs.com.hungama.Model.NewMusic;
 import bubtjobs.com.hungama.Others.Common_Url;
 import bubtjobs.com.hungama.Others.SessionManager;
@@ -60,6 +63,11 @@ public class MusicService  extends Service implements MediaPlayer.OnPreparedList
     @Override
     public void onDestroy() {
         stopForeground(true);
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return START_STICKY;
     }
 
     public void initMusicPlayer(){
@@ -178,10 +186,9 @@ public class MusicService  extends Service implements MediaPlayer.OnPreparedList
         mp.start();
         sessionManager.setAudioLoad("0");
 
-        Intent notIntent = new Intent(this, MusicPlayer.class);
-        notIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendInt = PendingIntent.getActivity(this, 0,
-                notIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent notIntent = new Intent(this, AudioPlayer.class);
+        notIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendInt = PendingIntent.getActivity(this, 0, notIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification.Builder builder = new Notification.Builder(this);
 
@@ -194,6 +201,37 @@ public class MusicService  extends Service implements MediaPlayer.OnPreparedList
         Notification not = builder.build();
 
         startForeground(NOTIFY_ID, not);
+
+
+
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+//        builder.setAutoCancel(false);
+//        builder.setDefaults(Notification.DEFAULT_ALL);
+//        builder.setWhen(System.currentTimeMillis());
+//        builder.setContentTitle("ok");
+//
+//        builder.setSmallIcon(R.drawable.app_icon);
+//        builder.setTicker("title");
+//        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+//
+//        Intent intent = new Intent(this, Home.class);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        builder.setContentIntent(pendingIntent);
+//
+//        Intent actionIntent = new Intent(this, Home.class);
+//        PendingIntent actionPendingIntent = PendingIntent.getActivity(this, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        builder.addAction(android.R.drawable.ic_media_pause, "PAUSE", actionPendingIntent);
+//
+//// if(artwork != null) {
+////     builder.setLargeIcon(artwork);
+//// }
+//// builder.setContentText(artist);
+//// builder.setSubText(album);
+//
+//// startForeground(R.id.notification_id, builder.build());
+//        NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+//       // manager.nontify(R.id.notification_id, builder.build());
+//        manager.notify(NOTIFY_ID,builder.build());
     }
 
     public int getBufferPercentage() {

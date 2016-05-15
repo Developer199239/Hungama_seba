@@ -1,18 +1,15 @@
 package bubtjobs.com.hungama.Activity;
 
 import android.content.ComponentName;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,8 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import bubtjobs.com.hungama.DataBase.DataBaseManager;
 import bubtjobs.com.hungama.Model.NewMusic;
@@ -31,7 +26,7 @@ import bubtjobs.com.hungama.Others.Utilities;
 import bubtjobs.com.hungama.R;
 import bubtjobs.com.hungama.Service.MusicService;
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener,SeekBar.OnSeekBarChangeListener{
+public class AudioPlayer extends AppCompatActivity implements View.OnClickListener,SeekBar.OnSeekBarChangeListener{
 
     ImageButton songListBt,shuffleBt,repeatBt,preBt,playBt,nextBt;
     ImageView background;
@@ -52,11 +47,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     int postion=0;
     SessionManager sessionManager;
 
+    String movie_code="";
+
     boolean a=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home1);
+        setContentView(R.layout.activity_audio_player);
 
         init();
     }
@@ -79,8 +76,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
+    @Override
     protected void onDestroy() {
-        //sessionManager.setId(String.valueOf(musicSrv.reSongPos()),isShuffle,isRepeat);
         stopService(playIntent);
         musicSrv=null;
         mHandler.removeCallbacks(mUpdateTimeTask);
@@ -95,8 +96,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             //get service
             musicSrv = binder.getService();
             //pass list
-            musicSrv.setList(songList);
-            musicBound = true;
+                musicSrv.setList(songList);
+                musicBound = true;
 
             sessionManager.setAudioLoad("1");
             musicSrv.setSong(0);
@@ -104,6 +105,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             songProgressBar.setProgress(0);
             songProgressBar.setMax(100);
             updateProgressBar();
+
+
         }
 
         @Override
@@ -148,15 +151,17 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     public void getSongList() {
         Intent intent=getIntent();
-       String movie_code=intent.getStringExtra("movie_code");
-        dataBaseManager=new DataBaseManager(HomeActivity.this);
-        songList=dataBaseManager.makeAudioPlayList(movie_code);
+        movie_code=intent.getStringExtra("movie_code");
+            dataBaseManager=new DataBaseManager(AudioPlayer.this);
+            songList=dataBaseManager.makeAudioPlayList(movie_code);
 
-        if(songList!=null )
-        {
+            if(songList!=null )
+            {
 
 
-        }
+            }
+
+
     }
 
 
@@ -164,7 +169,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
-         if(v.getId()==R.id.shuffleBt)
+         if(v.getId()==R.id.songListBt)
+        {
+            Intent intent=new Intent(AudioPlayer.this,PlayList.class);
+            intent.putExtra("movie_code",movie_code);
+            startActivityForResult(intent,1);
+        }
+
+         else if(v.getId()==R.id.shuffleBt)
         {
 
         }
@@ -174,7 +186,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if(v.getId()==R.id.preBt)
         {
-            //Toast.makeText(HomeActivity.this, "Pre", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(AudioPlayer.this, "Pre", Toast.LENGTH_SHORT).show();
 
             musicSrv.playPrev();
             songProgressBar.setProgress(0);
@@ -193,6 +205,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             musicSrv.go();
             updateProgressBar();
             playBt.setImageResource(R.drawable.pause);
+
         }
 
 
@@ -206,7 +219,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             songProgressBar.setMax(100);
             updateProgressBar();
 
-            //Toast.makeText(HomeActivity.this, "next", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(AudioPlayer.this, "next", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -262,6 +275,33 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     };
 
 
+
+
+        @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.audio_player, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.homeBack) {
+           Intent intent=new Intent(AudioPlayer.this,Home.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
@@ -285,6 +325,20 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         updateProgressBar();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==2)
+        {
 
-
+            int position = data.getExtras().getInt("position");
+            sessionManager.setAudioLoad("1");
+            musicSrv.setSong(position);
+            musicSrv.playSong();
+            songProgressBar.setProgress(0);
+            songProgressBar.setMax(100);
+            updateProgressBar();
+            playBt.setImageResource(R.drawable.pause);
+        }
+    }
 }
