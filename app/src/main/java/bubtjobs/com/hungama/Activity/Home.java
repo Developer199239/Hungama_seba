@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -40,29 +41,27 @@ public class Home extends AppCompatActivity
     boolean check=false;
 
     SessionManager sessionManager;
+
+    TextView nav_name_tv,nav_reward_tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         init();
-
-
-
         country_music.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String music_type = (String) parent.getItemAtPosition(position);
-                    if(check) {
+                if (check) {
 
-                       // Toast.makeText(Home.this, "" + music_type, Toast.LENGTH_SHORT).show();
-                        sessionManager.setMusicType(music_type);
-                        startActivity(new Intent(Home.this,Home.class));
-                        finish();
-                    }
-                else{
-                        check=true;
-                    }
+                    // Toast.makeText(Home.this, "" + music_type, Toast.LENGTH_SHORT).show();
+                    sessionManager.setMusicType(music_type);
+                    startActivity(new Intent(Home.this, Home.class));
+                    finish();
+                } else {
+                    check = true;
+                }
 
             }
 
@@ -72,14 +71,7 @@ public class Home extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     public void init(){
@@ -104,6 +96,32 @@ public class Home extends AppCompatActivity
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        View hView = navigationView.inflateHeaderView(R.layout.nav_header_home);
+
+        nav_name_tv = (TextView) hView.findViewById(R.id.name_tv);
+        nav_reward_tv = (TextView) hView.findViewById(R.id.reward_tv);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
+
+        nav_name_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkLogin();
+            }
+        });
 
     }
 
@@ -195,5 +213,13 @@ public class Home extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void checkLogin(){
+        if(nav_name_tv.getText().toString().equals("Welcome Guest(Sign In)"))
+        {
+            Intent intent=new Intent(Home.this,Login.class);
+            startActivity(intent);
+        }
     }
 }

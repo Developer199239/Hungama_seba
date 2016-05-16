@@ -8,6 +8,20 @@
     <string name="action_settings">Settings</string>
 
 
+    <string name="nav_name_tx">Welcome Guest(Sign In)</string>
+    <string name="nav_reward_tx">Sign in to get rewards</string>
+            <!-- hind -->
+    <string name="email_hint">put your email</string>
+    <string name="phone_hint">put your phone</string>
+    <string name="mobile_hint">put your mobile</string>
+    <string name="name_hint">put your name</string>
+    <string name="pass_hint">put your password</string>
+    <string name="con_pass_hint">confirm password</string>
+    <!-- button-->
+
+    <string name="sign_bt">Sign Up</string>
+    <string name="sign_in_bt">Sign In</string>
+    <!-- -->
     <string-array name="country">
         <item>Bengali</item>
         <item>Hindi</item>

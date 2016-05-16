@@ -36,6 +36,9 @@
         <service android:name=".Service.MusicService" />
 
         <activity android:name=".Activity.AudioPlayer" />
+        <activity android:name=".Activity.Login"
+            android:parentActivityName=".Activity.Home"
+            ></activity>
     </application>
 
 </manifest>
