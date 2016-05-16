@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         sessionManager=new SessionManager(MainActivity.this);
         sessionManager.setUserName("Guest(Sign In)");
+        sessionManager.setAudioPlayerStatus("off");
 
         new Handler().postDelayed(new Runnable() {
             @Override

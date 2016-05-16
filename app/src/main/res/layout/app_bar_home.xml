@@ -34,6 +34,7 @@
                 android:entries="@array/country"
                 />
             <ImageView
+                android:id="@+id/ser_bt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"

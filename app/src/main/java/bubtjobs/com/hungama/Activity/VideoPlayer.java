@@ -1,8 +1,12 @@
 package bubtjobs.com.hungama.Activity;
 
 import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.media.MediaPlayer;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,7 +25,9 @@ import java.util.ArrayList;
 import bubtjobs.com.hungama.DataBase.DataBaseManager;
 import bubtjobs.com.hungama.Model.Video;
 import bubtjobs.com.hungama.Others.Common_Url;
+import bubtjobs.com.hungama.Others.SessionManager;
 import bubtjobs.com.hungama.R;
+import bubtjobs.com.hungama.Service.MusicService;
 
 public class VideoPlayer extends AppCompatActivity{
     Switch autoPlay_switch;
@@ -34,6 +40,10 @@ public class VideoPlayer extends AppCompatActivity{
     private ArrayList<Video> videoList;
     DataBaseManager dataBaseManager;
     Common_Url common_url;
+    SessionManager sessionManager;
+    private MusicService musicSrv;
+    private Intent playIntent;
+    private boolean musicBound=false;
 
 
     @Override
@@ -41,10 +51,15 @@ public class VideoPlayer extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
 
+
         videoList=new ArrayList<>();
         dataBaseManager=new DataBaseManager(VideoPlayer.this);
         common_url=new Common_Url();
+        sessionManager=new SessionManager(VideoPlayer.this);
 
+        // pause audio player if on
+            pauseAudioPlayer();
+        //
         Intent intent=getIntent();
 
         postion=Integer.parseInt(intent.getStringExtra("postion"));
@@ -133,4 +148,41 @@ public class VideoPlayer extends AppCompatActivity{
         //if(autoPlay_switch.isChecked())
 
     }
+
+    @Override
+    protected void onDestroy() {
+        if(sessionManager.getAudioPlayerStatus())
+        {
+            this.unbindService(musicConnection);
+        }
+
+        super.onDestroy();
+    }
+
+    private void pauseAudioPlayer() {
+        if(sessionManager.getAudioPlayerStatus()){
+            Log.i("On123","on now" +sessionManager.getAudioPlayerStatus());
+            playIntent = new Intent(this, MusicService.class);
+            bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+        }
+    }
+
+    private ServiceConnection musicConnection = new ServiceConnection(){
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MusicService.MusicBinder binder = (MusicService.MusicBinder)service;
+            musicSrv = binder.getService();
+            musicBound = true;
+            startService(playIntent);
+            musicSrv.pausePlayer();
+
+
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            musicBound = false;
+        }
+    };
 }

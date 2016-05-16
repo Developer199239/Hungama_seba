@@ -42,9 +42,7 @@
         <activity android:name=".Activity.AudioPlayer" />
         <activity
             android:name=".Activity.Login"
-            android:parentActivityName=".Activity.Home">
-        </activity>
-
+            android:parentActivityName=".Activity.Home"></activity>
         <activity
             android:name=".Activity.G_Login"
             android:parentActivityName=".Activity.Home">
@@ -52,6 +50,7 @@
                 android:name="com.google.android.gms.version"
                 android:value="@integer/google_play_services_version" />
         </activity>
+        <activity android:name=".Activity.Test"></activity>
     </application>
 
 </manifest>

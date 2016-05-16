@@ -120,6 +120,7 @@ public class AudioPlayer extends AppCompatActivity implements View.OnClickListen
         sessionManager=new SessionManager(this);
         isFirstActivity=true;sessionData=false;seseionShuffle=false;sessionRepeat=false;
 
+        sessionManager.setAudioPlayerStatus("on");
 
         songListBt=(ImageButton)findViewById(R.id.songListBt);
         shuffleBt=(ImageButton)findViewById(R.id.shuffleBt);

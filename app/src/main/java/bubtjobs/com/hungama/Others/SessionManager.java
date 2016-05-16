@@ -16,6 +16,7 @@ public class SessionManager {
 	private static final String SONG_TYPE="song_type";
 	private static final String AUDIOLOAD="audioLoad";
 	private static final String USER_NAME="user_name";
+	private static final String AUDIO_PLAYER_STATUS="audio_player";
 
 	//constructor
 	public SessionManager(Context _context) {
@@ -62,7 +63,17 @@ public class SessionManager {
 		return name;
 	}
 
-	
+	public void setAudioPlayerStatus(String status){
+		editor.putString(AUDIO_PLAYER_STATUS,status);
+		editor.commit();
+	}
+	public  Boolean getAudioPlayerStatus(){
+		String delay= perf.getString(AUDIO_PLAYER_STATUS,"off");
+		if(delay.equals("off"))
+			return false;
+		else
+			return true;
+	}
 
 
     

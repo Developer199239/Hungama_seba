@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import bubtjobs.com.hungama.Fragment.RadioFragment;
 import bubtjobs.com.hungama.Fragment.VideosFragment;
 import bubtjobs.com.hungama.Others.SessionManager;
 import bubtjobs.com.hungama.R;
+import bubtjobs.com.hungama.Service.MusicService;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -81,6 +83,14 @@ public class Home extends AppCompatActivity
         toolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         country_music = (Spinner)toolbar.findViewById(R.id.country_music);
+       ImageView ser_bt = (ImageView)toolbar.findViewById(R.id.ser_bt);
+        ser_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Home.this,Test.class));
+            }
+        });
+
         if(sessionManager.getMusicType().equals("Bengali"))
         {
            country_music.setSelection(0);
