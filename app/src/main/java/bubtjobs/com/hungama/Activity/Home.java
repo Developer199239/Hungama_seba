@@ -114,6 +114,13 @@ public class Home extends AppCompatActivity
         nav_reward_tv = (TextView) hView.findViewById(R.id.reward_tv);
         navigationView.setNavigationItemSelectedListener(this);
 
+        String name="Welcome " + sessionManager.getUserName();
+        nav_name_tv.setText(name);
+
+        if(!name.equals("Welcome Guest(Sign In)"))
+        {
+            nav_reward_tv.setText("");
+        }
 
 
         nav_name_tv.setOnClickListener(new View.OnClickListener() {
@@ -220,6 +227,9 @@ public class Home extends AppCompatActivity
         {
             Intent intent=new Intent(Home.this,Login.class);
             startActivity(intent);
+        }
+        else{
+
         }
     }
 }

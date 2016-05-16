@@ -1,6 +1,8 @@
 package bubtjobs.com.hungama.Activity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -28,8 +30,10 @@ import java.util.Map;
 
 import bubtjobs.com.hungama.Adapter.VideoAdapter;
 import bubtjobs.com.hungama.Model.Video;
+import bubtjobs.com.hungama.Others.AlertDialogManager;
 import bubtjobs.com.hungama.Others.CommonFunction;
 import bubtjobs.com.hungama.Others.Common_Url;
+import bubtjobs.com.hungama.Others.SessionManager;
 import bubtjobs.com.hungama.R;
 import bubtjobs.com.hungama.Volly.AppController;
 
@@ -37,6 +41,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     Button signIn_bt,signup_bt;
     CommonFunction commonFunction;
     Common_Url common_url;
+    AlertDialogManager alertDialogManager;
+    private ProgressDialog pd;
+    SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +54,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     public void init(){
         commonFunction=new CommonFunction();
         common_url=new Common_Url();
+        alertDialogManager=new AlertDialogManager();
+        sessionManager=new SessionManager(Login.this);
         signIn_bt=(Button)findViewById(R.id.signIn_bt);
         signup_bt=(Button)findViewById(R.id.sign_bt);
 
@@ -79,7 +89,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                         Toast.makeText(Login.this, "Enter valid email", Toast.LENGTH_LONG).show();
                     }
                     else{
-                        Toast.makeText(Login.this, "Ok", Toast.LENGTH_LONG).show();
+                        alertDialog.dismiss();
+                        pd = ProgressDialog.show(Login.this, "", "Fetching data...", false, true);
+                        new SignInEx(email.getText().toString(),pass.getText().toString()).execute();
                     }
                 }
             });
@@ -92,7 +104,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             View promptsView = li.inflate(R.layout.sign_up, null);
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Login.this);
             alertDialogBuilder.setView(promptsView);
-            final AlertDialog alertDialog = alertDialogBuilder.create();
+             final AlertDialog alertDialog = alertDialogBuilder.create();
 
             final TextView name = (TextView) promptsView.findViewById(R.id.name_tv);
             final TextView mobile = (TextView) promptsView.findViewById(R.id.mobile_tv);
@@ -112,6 +124,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                        Toast.makeText(Login.this, "Enter valid email", Toast.LENGTH_LONG).show();
                    }
                     else{
+                       alertDialog.dismiss();
+                       pd = ProgressDialog.show(Login.this, "", "Fetching data...", false, true);
                     new SignUpEx(name.getText().toString(),mobile.getText().toString(),email.getText().toString(),pass.getText().toString()).execute();
                    }
                 }
@@ -145,6 +159,23 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
     }
 
+    private class SignInEx extends AsyncTask<Void,Void,Void> {
+        private String email;
+        private String password;
+
+        public SignInEx(String email,String password){
+            this.email=email;
+            this.password=password;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            singIn(email, password);
+            return null;
+        }
+
+    }
+
     public void singUp(final String name, final String mobile, final String email, final String password) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, common_url.signUp(), new Response.Listener<String>() {
             @Override
@@ -165,15 +196,17 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
 
                 } catch (JSONException e) {
-                    Toast.makeText(Login.this,""+e.toString(),Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
+//                    Toast.makeText(Login.this,""+e.toString(),Toast.LENGTH_LONG).show();
+//                    e.printStackTrace();
+                    handler.sendEmptyMessage(0);
                 }
             }
         },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(Login.this,error.toString(), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(Login.this,error.toString(), Toast.LENGTH_LONG).show();
+                        handler.sendEmptyMessage(0);
                     }
                 }) {
             @Override
@@ -194,17 +227,83 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     }
 
 
+    public void singIn(final String email, final String password) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, common_url.signIn(), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    Log.i("json", obj.toString());
+                    if(obj.getInt("success")==1)
+                    {
+                        String name=obj.getString("name");
+                        sessionManager.setUserName(name);
+                        handlerSignIn.sendEmptyMessage(1);
+                    }
+                    else{
+                        handlerSignIn.sendEmptyMessage(0);
+                    }
+
+
+                } catch (JSONException e) {
+//                    Toast.makeText(Login.this,""+e.toString(),Toast.LENGTH_LONG).show();
+//                    e.printStackTrace();
+                    handlerSignIn.sendEmptyMessage(0);
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+//                        Toast.makeText(Login.this,error.toString(), Toast.LENGTH_LONG).show();
+                        handlerSignIn.sendEmptyMessage(0);
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("email", email);
+                params.put("password", password);
+                return params;
+            }
+
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+
+
     Handler handler=new Handler(){
         public void handleMessage(android.os.Message msg) {
+            pd.dismiss();
             switch (msg.what){
                 case 0:
-                    Toast.makeText(Login.this, "error", Toast.LENGTH_SHORT).show();
+                    alertDialogManager.showAlertDialog(Login.this, "Error", "Try Again", true);
                     break;
                 case 1:
-                    Toast.makeText(Login.this, "success", Toast.LENGTH_SHORT).show();
+                    alertDialogManager.showAlertDialog(Login.this, "Sucess", "Account Create Successfully", true);
                     break;
                 case 2:
-                    Toast.makeText(Login.this, "al ready email", Toast.LENGTH_SHORT).show();
+                    alertDialogManager.showAlertDialog(Login.this, "Error", "Entered Email address has already an account. Please try entering different Email address", true);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    Handler handlerSignIn=new Handler(){
+        public void handleMessage(android.os.Message msg) {
+            pd.dismiss();
+            switch (msg.what){
+                case 0:
+                    alertDialogManager.showAlertDialog(Login.this, "Error", "Unauthorized Person", true);
+                    break;
+                case 1:
+                    alertDialogManager.showAlertDialog(Login.this, "success", "Login Successfully", true);
+                    startActivity(new Intent(Login.this,Home.class));
                     break;
                 default:
                     break;

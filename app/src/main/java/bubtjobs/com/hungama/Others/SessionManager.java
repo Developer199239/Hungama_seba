@@ -15,6 +15,7 @@ public class SessionManager {
 	private static final String CURRENT_FRAGMENT="current_fragment";
 	private static final String SONG_TYPE="song_type";
 	private static final String AUDIOLOAD="audioLoad";
+	private static final String USER_NAME="user_name";
 
 	//constructor
 	public SessionManager(Context _context) {
@@ -50,6 +51,15 @@ public class SessionManager {
 			return true;
 		else
 			return false;
+	}
+
+	public void setUserName(String name){
+		editor.putString(USER_NAME,name);
+		editor.commit();
+	}
+	public  String getUserName(){
+		String name= perf.getString(USER_NAME,"Guest(Sign In)");
+		return name;
 	}
 
 	
