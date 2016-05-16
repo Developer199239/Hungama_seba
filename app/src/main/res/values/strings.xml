@@ -10,7 +10,7 @@
 
     <string name="nav_name_tx">Welcome Guest(Sign In)</string>
     <string name="nav_reward_tx">Sign in to get rewards</string>
-            <!-- hind -->
+    <!-- hind -->
     <string name="email_hint">put your email</string>
     <string name="phone_hint">put your phone</string>
     <string name="mobile_hint">put your mobile</string>

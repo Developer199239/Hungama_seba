@@ -20,6 +20,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.plus.Plus;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +39,6 @@ import bubtjobs.com.hungama.Others.Common_Url;
 import bubtjobs.com.hungama.Others.SessionManager;
 import bubtjobs.com.hungama.R;
 import bubtjobs.com.hungama.Volly.AppController;
-
 public class Login extends AppCompatActivity implements View.OnClickListener{
     Button signIn_bt,signup_bt;
     CommonFunction commonFunction;
@@ -44,6 +46,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     AlertDialogManager alertDialogManager;
     private ProgressDialog pd;
     SessionManager sessionManager;
+    SignInButton signIn_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         signIn_bt=(Button)findViewById(R.id.signIn_bt);
         signup_bt=(Button)findViewById(R.id.sign_bt);
 
+//        google plus customized design
+
+        signIn_btn = (SignInButton) findViewById(R.id.sign_in_button);
+        signIn_btn.setSize(SignInButton.SIZE_STANDARD);
+        signIn_btn.setScopes(new Scope[]{Plus.SCOPE_PLUS_LOGIN});
+
+        signIn_btn.setOnClickListener(this);
         signIn_bt.setOnClickListener(this);
         signup_bt.setOnClickListener(this);
 
@@ -133,6 +143,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
 
             alertDialog.show();
+        }
+        else if(v.getId()==R.id.sign_in_button)
+        {
+            startActivity(new Intent(Login.this,G_Login.class));
         }
 
     }

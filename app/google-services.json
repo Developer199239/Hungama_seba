@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "979046661666",
+    "project_id": "hungama-1313"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:979046661666:android:136432288c6a6a97",
+        "android_client_info": {
+          "package_name": "bubtjobs.com.hungama"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "979046661666-g040u4rqgnva75uplf5ncveg58l84fle.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "bubtjobs.com.hungama",
+            "certificate_hash": "F74F835976B78FBA9ACE4B8DDF6DF2481E7A7F87"
+          }
+        },
+        {
+          "client_id": "979046661666-kr8ktkp8o1d9kd530n0cvng4mk9eu857.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDk4XCCTk5x8W0uxse0J-XjbUagWKf6Hng"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
