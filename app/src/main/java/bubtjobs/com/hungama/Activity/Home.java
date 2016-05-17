@@ -83,13 +83,13 @@ public class Home extends AppCompatActivity
         toolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         country_music = (Spinner)toolbar.findViewById(R.id.country_music);
-       ImageView ser_bt = (ImageView)toolbar.findViewById(R.id.ser_bt);
-        ser_bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Home.this,Test.class));
-            }
-        });
+//       ImageView ser_bt = (ImageView)toolbar.findViewById(R.id.ser_bt);
+//        ser_bt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(Home.this,Test.class));
+//            }
+//        });
 
         if(sessionManager.getMusicType().equals("Bengali"))
         {
