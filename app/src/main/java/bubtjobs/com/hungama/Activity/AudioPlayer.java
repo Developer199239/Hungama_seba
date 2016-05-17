@@ -100,6 +100,7 @@ public class AudioPlayer extends AppCompatActivity implements View.OnClickListen
                 musicBound = true;
 
             sessionManager.setAudioLoad("1");
+            musicSrv.reset();
             musicSrv.setSong(0);
             musicSrv.playSong();
             songProgressBar.setProgress(0);
@@ -186,17 +187,43 @@ public class AudioPlayer extends AppCompatActivity implements View.OnClickListen
 
          else if(v.getId()==R.id.shuffleBt)
         {
-
+            if(isShuffle) {
+                musicSrv.setSuffle();
+                isShuffle = false;
+                Toast.makeText(getApplicationContext(), "Shuffle is OFF", Toast.LENGTH_SHORT).show();
+                shuffleBt.setImageResource(R.drawable.suffel_off);
+            }
+            else {
+                musicSrv.setSuffle();
+                isShuffle = true;
+                Toast.makeText(getApplicationContext(), "Shuffle is ON", Toast.LENGTH_SHORT).show();
+                isRepeat = false;
+                shuffleBt.setImageResource(R.drawable.shuffle_on);
+                repeatBt.setImageResource(R.drawable.repeat_off);
+            }
         }
         else if(v.getId()==R.id.repeatBt)
         {
+            if(isRepeat) {
+                musicSrv.setRepeat();
+                isRepeat = false;
 
+                Toast.makeText(getApplicationContext(), "Repeat is OFF", Toast.LENGTH_SHORT).show();
+                repeatBt.setImageResource(R.drawable.repeat_off);
+            }
+            else{
+                musicSrv.setRepeat();
+                isRepeat = true;
+                Toast.makeText(getApplicationContext(), "Repeat is ON", Toast.LENGTH_SHORT).show();
+                isShuffle = false;
+
+                repeatBt.setImageResource(R.drawable.repeat_on);
+                shuffleBt.setImageResource(R.drawable.suffel_off);
+            }
         }
-        else if(v.getId()==R.id.preBt)
-        {
-            //Toast.makeText(AudioPlayer.this, "Pre", Toast.LENGTH_SHORT).show();
-
+        else if(v.getId()==R.id.preBt) {
             musicSrv.playPrev();
+            songStartTv.setText("0:00");
             songProgressBar.setProgress(0);
             songProgressBar.setMax(100);
             updateProgressBar();
@@ -215,19 +242,15 @@ public class AudioPlayer extends AppCompatActivity implements View.OnClickListen
             playBt.setImageResource(R.drawable.pause);
 
         }
-
-
         }
         else if(v.getId()==R.id.nextBt)
         {
             musicSrv.playNext();
 
-            //songProgressBar.clearFocus();
+            songStartTv.setText("0:00");
             songProgressBar.setProgress(0);
             songProgressBar.setMax(100);
             updateProgressBar();
-
-            //Toast.makeText(AudioPlayer.this, "next", Toast.LENGTH_SHORT).show();
         }
     }
 

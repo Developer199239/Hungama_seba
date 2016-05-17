@@ -351,6 +351,10 @@ public class MusicService  extends Service implements MediaPlayer.OnPreparedList
         return songTitle;
     }
 
+    public void reset(){
+        repeat=false;
+        shuffle=false;
+    }
 
     public void seekupdate(){
 
