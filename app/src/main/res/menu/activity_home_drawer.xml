@@ -2,25 +2,33 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_person"
-            android:title="Offline Music" />
-        <item
-            android:id="@+id/nav_promoCode"
-            android:icon="@drawable/ic_person"
-            android:title="Prome Code" />
-        <item
-            android:id="@+id/nav_languageSetting"
-            android:icon="@drawable/ic_person"
-            android:title="Language Settring" />
-        <item
-            android:id="@+id/nav_rewards"
-            android:icon="@drawable/ic_person"
-            android:title="Rewards" />
+        <!--<item-->
+            <!--android:id="@+id/nav_camera"-->
+            <!--android:icon="@drawable/ic_person"-->
+            <!--android:title="Offline Music" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_promoCode"-->
+            <!--android:icon="@drawable/ic_person"-->
+            <!--android:title="Prome Code" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_languageSetting"-->
+            <!--android:icon="@drawable/ic_person"-->
+            <!--android:title="Language Setting" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_rewards"-->
+            <!--android:icon="@drawable/ic_person"-->
+            <!--android:title="Rewards" />-->
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_person"
             android:title="Setting" />
+        <item
+            android:id="@+id/nav_feedBack"
+            android:icon="@drawable/ic_person"
+            android:title="Your FeedBack" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_person"
+            android:title="About" />
     </group>
 </menu>

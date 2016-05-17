@@ -1,5 +1,7 @@
 package bubtjobs.com.hungama.Activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -121,6 +123,7 @@ public class G_Login extends AppCompatActivity implements GoogleApiClient.OnConn
         if (google_api_client.isConnected()) {
             google_api_client.connect();
         }
+        //gPlusSignIn();
     }
 
 
@@ -321,8 +324,20 @@ public class G_Login extends AppCompatActivity implements GoogleApiClient.OnConn
                     startActivity(new Intent(G_Login.this, Login.class));
                     break;
                 case 1:
-                    alertDialogManager.showAlertDialog(G_Login.this, "success", "Login Successfully", true);
-                    startActivity(new Intent(G_Login.this,Home.class));
+//                    alertDialogManager.showAlertDialog(G_Login.this, "success", "Login Successfully", true);
+//                    startActivity(new Intent(G_Login.this,Home.class));
+                    AlertDialog.Builder builder = new AlertDialog.Builder(G_Login.this);
+                    builder.setMessage("Login Successfully")
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent intent = new Intent(G_Login.this, Home.class);
+                                    startActivity(intent);
+                                }
+                            });
+
+                    builder.create();
+                    builder.setCancelable(false);
+                    builder.show();
                     break;
                 default:
                     break;

@@ -2,6 +2,7 @@ package bubtjobs.com.hungama.Activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -316,8 +317,21 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                     alertDialogManager.showAlertDialog(Login.this, "Error", "Unauthorized Person", true);
                     break;
                 case 1:
-                    alertDialogManager.showAlertDialog(Login.this, "success", "Login Successfully", true);
-                    startActivity(new Intent(Login.this,Home.class));
+//                    alertDialogManager.showAlertDialog(Login.this, "success", "Login Successfully", true);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+                    builder.setMessage("Login Successfully")
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent intent = new Intent(Login.this, Home.class);
+                                    startActivity(intent);
+                                }
+                            });
+
+                    builder.create();
+                    builder.setCancelable(false);
+                    builder.show();
+
                     break;
                 default:
                     break;

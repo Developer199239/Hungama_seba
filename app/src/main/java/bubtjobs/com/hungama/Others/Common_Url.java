@@ -27,6 +27,7 @@ public class Common_Url {
     }
     public String signInGooglePlus(){
         return commonPart+"api/singup_WithGooglePlus";
+        //return "http://bubtjobs.com/hungama/api/singup_WithGooglePlus";
     }
 
     //path
