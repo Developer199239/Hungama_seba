@@ -66,17 +66,23 @@
         android:layout_weight="3.5"
         android:background="#dedad6"
         >
-        <FrameLayout
-            android:paddingTop="30dp"
-            android:id="@+id/video_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <!--<FrameLayout-->
+            <!--android:paddingTop="30dp"-->
+            <!--android:id="@+id/video_frame"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
 
-            <VideoView
-                android:id="@+id/videoView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </FrameLayout>
+            <!--<VideoView-->
+                <!--android:id="@+id/videoView"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent" />-->
+        <!--</FrameLayout>-->
+        <VideoView
+            android:id="@+id/videoView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            />
     </LinearLayout>
 
 </LinearLayout>

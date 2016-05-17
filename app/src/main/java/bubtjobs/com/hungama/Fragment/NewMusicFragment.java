@@ -1,5 +1,8 @@
 package bubtjobs.com.hungama.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import bubtjobs.com.hungama.Activity.Home;
 import bubtjobs.com.hungama.Adapter.NewMusicAdapter;
 import bubtjobs.com.hungama.Adapter.VideoAdapter;
 import bubtjobs.com.hungama.DataBase.DataBaseManager;
@@ -71,7 +75,23 @@ public class NewMusicFragment extends Fragment{
             new newMusicList().execute();
         }
         else{
-            alertDialogManager.showAlertDialog(getContext(),"Error","No InterNet",true);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("No Internet Connection")
+                        .setPositiveButton("retry", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent=new Intent(getActivity(), Home.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                builder.create();
+                builder.show();
+
         }
 
     }
@@ -121,7 +141,7 @@ public class NewMusicFragment extends Fragment{
                             if(isinsert)
                             {
                                musicArrayList=new ArrayList<>();
-                                musicArrayList=dataBaseManager.getSingleMovieName();
+                                musicArrayList=dataBaseManager.getSingleMovieName("newMusicList");
                                 if(musicArrayList!=null && musicArrayList.size()>0)
                                 {
                                     //Toast.makeText(getActivity(), ""+musicArrayList.size(), Toast.LENGTH_SHORT).show();

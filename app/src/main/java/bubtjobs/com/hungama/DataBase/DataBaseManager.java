@@ -109,12 +109,41 @@ public class DataBaseManager {
 
     }
 
-    public ArrayList<NewMusic> getSingleMovieName(){
+    public boolean addPopularMusicList(ArrayList<NewMusic> arrayList){
+        try{
+            this.open();
+            database.execSQL("DROP TABLE IF EXISTS " +DatabaseHelper.TABLE_POPULAR_MUSIC_LIST);
+            database.execSQL(DatabaseHelper.CREATE_POPULAR_MUSIC_LIST);
+
+            for(NewMusic obj:arrayList)
+            {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(DatabaseHelper.COL_FILE_NAME,obj.getFileName());
+                contentValues.put(DatabaseHelper.COL_SONG_NAME,obj.getSongName());
+                contentValues.put(DatabaseHelper.COL_MOVIE_NAME,obj.getMovieName());
+                contentValues.put(DatabaseHelper.COL_MOVIE_CODE,obj.getMovie_code());
+                contentValues.put(DatabaseHelper.COL_TYPE,obj.getType());
+                long inserted = database.insert(DatabaseHelper.TABLE_POPULAR_MUSIC_LIST, null, contentValues);
+
+            }
+
+
+            this.close();
+            return true;
+        }
+        catch (Exception e){
+            //Log.i("error",e.toString());
+            return  false;
+        }
+
+    }
+
+    public ArrayList<NewMusic> getSingleMovieName(String table){
         this.open();
         ArrayList<NewMusic> videoList=new ArrayList<>();
         NewMusic newMusic;
         //String query="SELECT * FROM "+DatabaseHelper.TABLE_NEW_MUSIC_LIST;
-        String query="SELECT * FROM "+DatabaseHelper.TABLE_NEW_MUSIC_LIST+" GROUP BY "+DatabaseHelper.COL_MOVIE_CODE;
+        String query="SELECT * FROM "+table+" GROUP BY "+DatabaseHelper.COL_MOVIE_CODE;
         Cursor cursor=database.rawQuery(query, null);
         cursor.moveToFirst();
 
@@ -140,11 +169,11 @@ public class DataBaseManager {
     // 1= make audio play list for current movie
     // 2= add audio play list
     // 3= get audio play list
-    public ArrayList<NewMusic> makeAudioPlayList(String movie_code){
+    public ArrayList<NewMusic> makeAudioPlayList(String movie_code,String table){
         this.open();
         ArrayList<NewMusic> List=new ArrayList<>();
         NewMusic newMusic;
-        String query="SELECT * FROM "+DatabaseHelper.TABLE_NEW_MUSIC_LIST+" where "+DatabaseHelper.COL_MOVIE_CODE+" = "+movie_code;
+        String query="SELECT * FROM "+table+" where "+DatabaseHelper.COL_MOVIE_CODE+" = "+movie_code;
         Cursor cursor=database.rawQuery(query, null);
         cursor.moveToFirst();
 

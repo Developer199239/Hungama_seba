@@ -13,6 +13,10 @@ public class Common_Url {
         //return "http://bubtjobs.com/hungama/api/getNewMusicList";
        return "http://10.0.3.2:8080/hungama/api/getNewMusicList";
     }
+    public String popularMusicUrl(){
+        //return "http://bubtjobs.com/hungama/api/getPopularMusicList";
+        return "http://10.0.3.2:8080/hungama/api/getPopularMusicList";
+    }
     public String signUp(){
        // return "http://bubtjobs.com/hungama/api/singup";
         return "http://10.0.3.2:8080/hungama/api/singup";
@@ -45,6 +49,17 @@ public class Common_Url {
     public String musicPath(){
         //return "http://bubtjobs.com/hungama/NewMusic/";
        return "http://10.0.3.2:8080/hungama/NewMusic/";
+
+    }
+
+    public String imagepopularMusic(){
+        //return "http://bubtjobs.com/hungama/image/popularMusic/";
+        return "http://10.0.3.2:8080/hungama/image/popularMusic/";
+    }
+
+    public String popularMusicPath(){
+        //return "http://bubtjobs.com/hungama/popularMusic/";
+        return "http://10.0.3.2:8080/hungama/popularMusic/";
 
     }
 

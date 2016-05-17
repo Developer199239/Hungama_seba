@@ -23,7 +23,7 @@ import bubtjobs.com.hungama.R;
 /**
  * Created by Murtuza on 4/19/2016.
  */
-public class NewMusicAdapter extends ArrayAdapter<NewMusic> {
+public class PopularMusicAdapter extends ArrayAdapter<NewMusic> {
 
     private ArrayList<NewMusic> newMusicList;
     private Context context;
@@ -31,7 +31,7 @@ public class NewMusicAdapter extends ArrayAdapter<NewMusic> {
     SessionManager sessionManager;
 
 
-    public NewMusicAdapter(Context context, ArrayList<NewMusic> newMusicList) {
+    public PopularMusicAdapter(Context context, ArrayList<NewMusic> newMusicList) {
         super(context, R.layout.new_music_custom_row, newMusicList);
         this.context = context;
         this.newMusicList = newMusicList;
@@ -68,7 +68,7 @@ public class NewMusicAdapter extends ArrayAdapter<NewMusic> {
 
 
 
-        String imagePath=common_url.imageNewMusic()+newMusicList.get(position).getMovie_code()+".png";
+        String imagePath=common_url.imagepopularMusic()+newMusicList.get(position).getMovie_code()+".png";
 
         Log.i("imagePaht", imagePath);
 
@@ -84,15 +84,7 @@ public class NewMusicAdapter extends ArrayAdapter<NewMusic> {
         viewHolder.music_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Toast.makeText(context, "" + newMusicList.get(position).getFileName() + " === size " + newMusicList.size(), Toast.LENGTH_SHORT).show();
-//                Intent intent=new Intent(context, VideoPlayer.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intent.putExtra("postion", String.valueOf(position));
-//                intent.putExtra("fileName",videoList.get(position).getFileName());
-//                intent.putExtra("songName",videoList.get(position).getSongName());
-//                intent.putExtra("movieName",videoList.get(position).getMovieName());
-//                context.startActivity(intent);
-                sessionManager.setAudioMusicType("newMusic");
+                sessionManager.setAudioMusicType("popularMusic");
                 Intent intent=new Intent(context, AudioPlayer.class);
                 intent.putExtra("movie_code",newMusicList.get(position).getMovie_code());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

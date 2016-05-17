@@ -147,9 +147,9 @@ public class Home extends AppCompatActivity
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new VideosFragment(), "Videos");
         adapter.addFrag(new NewMusicFragment(), "New Music");
-        adapter.addFrag(new RadioFragment(), "Radio");
+        //adapter.addFrag(new RadioFragment(), "Radio");
         adapter.addFrag(new PopularMusicFragment(), "Popular Music");
-        adapter.addFrag(new DiscoverFragment(), "Discover");
+        //adapter.addFrag(new DiscoverFragment(), "Discover");
         //adapter.notifyDataSetChanged();
         viewPager.setAdapter(adapter);
 

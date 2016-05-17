@@ -20,6 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final String COL_MOVIE_NAME="movieName";
     // table new Music list
     static  final String TABLE_NEW_MUSIC_LIST="newMusicList";
+    static  final String TABLE_POPULAR_MUSIC_LIST="popularMusicList";
     static final String COL_MOVIE_CODE="movieCode";
     static final String COL_TYPE="type";
 
@@ -31,6 +32,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //create table newMusic play list
     static final String CREATE_NEW_MUSIC_LIST=" CREATE TABLE " + TABLE_NEW_MUSIC_LIST + " ( " + COL_ID +" INTEGER PRIMARY KEY," + COL_FILE_NAME +" TEXT," +COL_SONG_NAME +" TEXT,"+COL_MOVIE_NAME +" TEXT,"+COL_TYPE +" TEXT,"+COL_MOVIE_CODE +" TEXT)";
+    //create table popularMusic play list
+    static final String CREATE_POPULAR_MUSIC_LIST=" CREATE TABLE " + TABLE_POPULAR_MUSIC_LIST + " ( " + COL_ID +" INTEGER PRIMARY KEY," + COL_FILE_NAME +" TEXT," +COL_SONG_NAME +" TEXT,"+COL_MOVIE_NAME +" TEXT,"+COL_TYPE +" TEXT,"+COL_MOVIE_CODE +" TEXT)";
 
     // create table audio play list
     static final String CREATE_AUDIO_PLAY_LIST=" CREATE TABLE " + TABLE_AUDIO_PLAY_LIST + " ( " + COL_ID +" INTEGER PRIMARY KEY," + COL_FILE_NAME +" TEXT," +COL_SONG_NAME +" TEXT,"+COL_MOVIE_NAME +" TEXT,"+COL_TYPE +" TEXT,"+COL_MOVIE_CODE +" TEXT)";

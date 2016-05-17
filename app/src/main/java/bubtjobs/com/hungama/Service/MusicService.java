@@ -102,7 +102,17 @@ public class MusicService  extends Service implements MediaPlayer.OnPreparedList
         //long currSong = playSong.getID();
         String fileName=playSong.getFileName();
 
-        String audioPath=common_url.musicPath()+fileName+".mp3";
+        // get audio path
+        String audioPath="";
+        if(sessionManager.getAudioMusicType().equals("newMusic"))
+        {
+             audioPath=common_url.musicPath()+fileName+".mp3";
+        }
+        else
+        {
+             audioPath=common_url.popularMusicPath()+fileName+".mp3";
+        }
+
 
         Log.i("audioPath",audioPath);
 //set uri

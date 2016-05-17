@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import bubtjobs.com.hungama.Adapter.SongAdapter;
 import bubtjobs.com.hungama.DataBase.DataBaseManager;
 import bubtjobs.com.hungama.Model.NewMusic;
+import bubtjobs.com.hungama.Others.SessionManager;
 import bubtjobs.com.hungama.R;
 
 public class PlayList extends ListActivity {
@@ -21,6 +22,7 @@ public class PlayList extends ListActivity {
     NewMusic newMusic;
     ArrayList<NewMusic> musicArrayList;
     String movie_code="";
+    SessionManager sessionManager;
 
     ListView sampleLV;
     @Override
@@ -29,8 +31,18 @@ public class PlayList extends ListActivity {
         setContentView(R.layout.activity_play_list);
 
         init();
+        sessionManager=new SessionManager(this);
+//        if()
+//        musicArrayList=dataBaseManager.makeAudioPlayList(movie_code);
 
-        musicArrayList=dataBaseManager.makeAudioPlayList(movie_code);
+        if(sessionManager.getAudioMusicType().equals("popularMusic"))
+        {
+            musicArrayList=dataBaseManager.makeAudioPlayList(movie_code,"popularMusicList");
+        }
+        else{
+            musicArrayList=dataBaseManager.makeAudioPlayList(movie_code,"newMusicList");
+        }
+
         if(musicArrayList!=null && musicArrayList.size()>0)
         {
             SongAdapter adapter=new SongAdapter(getApplicationContext(),musicArrayList);

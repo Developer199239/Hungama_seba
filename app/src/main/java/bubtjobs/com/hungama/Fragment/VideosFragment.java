@@ -1,5 +1,8 @@
 package bubtjobs.com.hungama.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import bubtjobs.com.hungama.Activity.Home;
 import bubtjobs.com.hungama.Adapter.VideoAdapter;
 import bubtjobs.com.hungama.DataBase.DataBaseManager;
 import bubtjobs.com.hungama.Model.Video;
@@ -43,6 +47,7 @@ public class VideosFragment extends Fragment{
     Common_Url common_url;
     ListView songListView;
     DataBaseManager dataBaseManager;
+
 
     Video video;
     ArrayList<Video> videoArrayList;
@@ -76,7 +81,24 @@ public class VideosFragment extends Fragment{
             new VedioList().execute();
         }
         else{
-           alertDialogManager.showAlertDialog(getContext(),"Error","No InterNet",true);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("No Internet Connection")
+                        .setPositiveButton("retry", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent=new Intent(getActivity(), Home.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                builder.create();
+                builder.show();
+
+
         }
 
     }

@@ -154,7 +154,14 @@ public class AudioPlayer extends AppCompatActivity implements View.OnClickListen
         Intent intent=getIntent();
         movie_code=intent.getStringExtra("movie_code");
             dataBaseManager=new DataBaseManager(AudioPlayer.this);
-            songList=dataBaseManager.makeAudioPlayList(movie_code);
+            if(sessionManager.getAudioMusicType().equals("popularMusic"))
+            {
+                songList=dataBaseManager.makeAudioPlayList(movie_code,"popularMusicList");
+            }
+             else{
+                songList=dataBaseManager.makeAudioPlayList(movie_code,"newMusicList");
+            }
+
 
             if(songList!=null )
             {
