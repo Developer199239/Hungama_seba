@@ -95,17 +95,42 @@ public class AudioPlayer extends AppCompatActivity implements View.OnClickListen
             MusicService.MusicBinder binder = (MusicService.MusicBinder)service;
             //get service
             musicSrv = binder.getService();
-            //pass list
+//            //pass list
+//            musicSrv.setList(songList);
+//            musicBound = true;
+//
+//            sessionManager.setAudioLoad("1");
+//            musicSrv.reset();
+//            musicSrv.setSong(0);
+//            musicSrv.playSong();
+//            songProgressBar.setProgress(0);
+//            songProgressBar.setMax(100);
+//            updateProgressBar();
+            // check same album
+            Intent intent=getIntent();
+           String running_music_album=intent.getStringExtra("running_music_album");
+            if(running_music_album==null)
+            {
+                running_music_album="";
+            }
+            if(running_music_album.equals(sessionManager.getRunningMusicAlbume()))
+            {
+                updateProgressBar();
+            }
+            else{
+                sessionManager.setRunningMusicAlbum(running_music_album);
+                //pass list
                 musicSrv.setList(songList);
                 musicBound = true;
 
-            sessionManager.setAudioLoad("1");
-            musicSrv.reset();
-            musicSrv.setSong(0);
-            musicSrv.playSong();
-            songProgressBar.setProgress(0);
-            songProgressBar.setMax(100);
-            updateProgressBar();
+                sessionManager.setAudioLoad("1");
+                musicSrv.reset();
+                musicSrv.setSong(0);
+                musicSrv.playSong();
+                songProgressBar.setProgress(0);
+                songProgressBar.setMax(100);
+                updateProgressBar();
+            }
 
 
         }

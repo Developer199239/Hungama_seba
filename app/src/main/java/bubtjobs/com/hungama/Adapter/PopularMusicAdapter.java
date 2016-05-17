@@ -87,6 +87,7 @@ public class PopularMusicAdapter extends ArrayAdapter<NewMusic> {
                 sessionManager.setAudioMusicType("popularMusic");
                 Intent intent=new Intent(context, AudioPlayer.class);
                 intent.putExtra("movie_code",newMusicList.get(position).getMovie_code());
+                intent.putExtra("running_music_album","popularMusic"+newMusicList.get(position).getMovie_code());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
 

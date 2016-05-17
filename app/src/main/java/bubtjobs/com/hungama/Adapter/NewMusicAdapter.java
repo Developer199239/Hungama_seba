@@ -84,17 +84,10 @@ public class NewMusicAdapter extends ArrayAdapter<NewMusic> {
         viewHolder.music_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Toast.makeText(context, "" + newMusicList.get(position).getFileName() + " === size " + newMusicList.size(), Toast.LENGTH_SHORT).show();
-//                Intent intent=new Intent(context, VideoPlayer.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intent.putExtra("postion", String.valueOf(position));
-//                intent.putExtra("fileName",videoList.get(position).getFileName());
-//                intent.putExtra("songName",videoList.get(position).getSongName());
-//                intent.putExtra("movieName",videoList.get(position).getMovieName());
-//                context.startActivity(intent);
                 sessionManager.setAudioMusicType("newMusic");
                 Intent intent=new Intent(context, AudioPlayer.class);
                 intent.putExtra("movie_code",newMusicList.get(position).getMovie_code());
+                intent.putExtra("running_music_album","newMusic"+newMusicList.get(position).getMovie_code());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
 

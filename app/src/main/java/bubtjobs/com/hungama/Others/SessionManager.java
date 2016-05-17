@@ -18,6 +18,7 @@ public class SessionManager {
 	private static final String USER_NAME="user_name";
 	private static final String AUDIO_PLAYER_STATUS="audio_player";
 	private static final String AUDIO_MUSIC_TYPE="audio_music_type";
+	private static final String RUNNING_MUSIC_ALBUM="running_music_album";
 
 	//constructor
 	public SessionManager(Context _context) {
@@ -83,6 +84,16 @@ public class SessionManager {
 	}
 	public  String getAudioMusicType(){
 		String name= perf.getString(AUDIO_MUSIC_TYPE,"newMusic");
+		return name;
+	}
+
+	// for url that newMusic or popular music
+	public void setRunningMusicAlbum(String name){
+		editor.putString(RUNNING_MUSIC_ALBUM,name);
+		editor.commit();
+	}
+	public  String getRunningMusicAlbume(){
+		String name= perf.getString(RUNNING_MUSIC_ALBUM,"#");
 		return name;
 	}
     
