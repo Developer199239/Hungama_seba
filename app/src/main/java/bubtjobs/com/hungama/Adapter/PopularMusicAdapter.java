@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 
 import bubtjobs.com.hungama.Activity.AudioPlayer;
 import bubtjobs.com.hungama.Model.NewMusic;
+import bubtjobs.com.hungama.Others.CommonFunction;
 import bubtjobs.com.hungama.Others.Common_Url;
 import bubtjobs.com.hungama.Others.SessionManager;
 import bubtjobs.com.hungama.R;
@@ -29,6 +31,7 @@ public class PopularMusicAdapter extends ArrayAdapter<NewMusic> {
     private Context context;
     Common_Url common_url;
     SessionManager sessionManager;
+    CommonFunction commonFunction;
 
 
     public PopularMusicAdapter(Context context, ArrayList<NewMusic> newMusicList) {
@@ -37,6 +40,7 @@ public class PopularMusicAdapter extends ArrayAdapter<NewMusic> {
         this.newMusicList = newMusicList;
         common_url=new Common_Url();
         sessionManager=new SessionManager(context);
+        commonFunction=new CommonFunction();
 
     }
 
@@ -84,12 +88,17 @@ public class PopularMusicAdapter extends ArrayAdapter<NewMusic> {
         viewHolder.music_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sessionManager.setAudioMusicType("popularMusic");
-                Intent intent=new Intent(context, AudioPlayer.class);
-                intent.putExtra("movie_code",newMusicList.get(position).getMovie_code());
-                intent.putExtra("running_music_album","popularMusic"+newMusicList.get(position).getMovie_code());
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                if (commonFunction.isNetworkAvailable(context)) {
+                    sessionManager.setAudioMusicType("popularMusic");
+                    Intent intent = new Intent(context, AudioPlayer.class);
+                    intent.putExtra("movie_code", newMusicList.get(position).getMovie_code());
+                    intent.putExtra("running_music_album", "popularMusic" + newMusicList.get(position).getMovie_code());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                } else {
+                    Toast.makeText(context, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
 
             }
         });

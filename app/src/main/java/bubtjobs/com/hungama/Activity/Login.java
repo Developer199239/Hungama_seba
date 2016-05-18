@@ -91,19 +91,27 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             signIn_bt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!commonFunction.isEmpty((EditText) email) || !commonFunction.isEmpty((EditText) pass))
+                    if(commonFunction.isNetworkAvailable(Login.this))
                     {
-                        Toast.makeText(Login.this, "Insert all fields", Toast.LENGTH_LONG).show();
-                    }
-                    else if(!commonFunction.isValidEmail((EditText) email))
-                    {
-                        Toast.makeText(Login.this, "Enter valid email", Toast.LENGTH_LONG).show();
+                        if(!commonFunction.isEmpty((EditText) email) || !commonFunction.isEmpty((EditText) pass))
+                        {
+                            Toast.makeText(Login.this, "Insert all fields", Toast.LENGTH_LONG).show();
+                        }
+                        else if(!commonFunction.isValidEmail((EditText) email))
+                        {
+                            Toast.makeText(Login.this, "Enter valid email", Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            alertDialog.dismiss();
+                            pd = ProgressDialog.show(Login.this, "", "Fetching data...", false, true);
+                            new SignInEx(email.getText().toString(),pass.getText().toString()).execute();
+                        }
                     }
                     else{
-                        alertDialog.dismiss();
-                        pd = ProgressDialog.show(Login.this, "", "Fetching data...", false, true);
-                        new SignInEx(email.getText().toString(),pass.getText().toString()).execute();
+                        Toast.makeText(Login.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
                     }
+
+
                 }
             });
 
@@ -126,19 +134,29 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             singUp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   if(!commonFunction.isEmpty((EditText) name)||!commonFunction.isEmpty((EditText) mobile)||!commonFunction.isEmpty((EditText) email)||!commonFunction.isEmpty((EditText) pass))
-                   {
-                       Toast.makeText(Login.this, "Insert all fields", Toast.LENGTH_LONG).show();
-                   }
-                    else if(!commonFunction.isValidEmail((EditText) email))
-                   {
-                       Toast.makeText(Login.this, "Enter valid email", Toast.LENGTH_LONG).show();
-                   }
+                    if(commonFunction.isNetworkAvailable(Login.this))
+                    {
+                        if(!commonFunction.isEmpty((EditText) name)||!commonFunction.isEmpty((EditText) mobile)||!commonFunction.isEmpty((EditText) email)||!commonFunction.isEmpty((EditText) pass))
+                        {
+                            Toast.makeText(Login.this, "Insert all fields", Toast.LENGTH_LONG).show();
+                        }
+                        else if(!commonFunction.isValidEmail((EditText) email))
+                        {
+                            Toast.makeText(Login.this, "Enter valid email", Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            alertDialog.dismiss();
+                            pd = ProgressDialog.show(Login.this, "", "Fetching data...", false, true);
+                            new SignUpEx(name.getText().toString(),mobile.getText().toString(),email.getText().toString(),pass.getText().toString()).execute();
+                        }
+                    }
                     else{
-                       alertDialog.dismiss();
-                       pd = ProgressDialog.show(Login.this, "", "Fetching data...", false, true);
-                    new SignUpEx(name.getText().toString(),mobile.getText().toString(),email.getText().toString(),pass.getText().toString()).execute();
-                   }
+                        Toast.makeText(Login.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+
                 }
             });
 
@@ -147,7 +165,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         }
         else if(v.getId()==R.id.sign_in_button)
         {
+            if(commonFunction.isNetworkAvailable(Login.this))
             startActivity(new Intent(Login.this,G_Login.class));
+            else{
+                Toast.makeText(Login.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+            }
         }
 
     }

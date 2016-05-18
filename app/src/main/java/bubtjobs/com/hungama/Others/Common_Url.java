@@ -4,8 +4,8 @@ package bubtjobs.com.hungama.Others;
  * Created by Murtuza on 3/13/2016.
  */
 public class Common_Url {
-    //private String commonPart="http://bubtjobs.com/hungama/";
-     private String commonPart="http://10.0.3.2:8080/hungama/"; // genymotion
+    private String commonPart="http://bubtjobs.com/hungama/";
+    // private String commonPart="http://10.0.3.2:8080/hungama/"; // genymotion
     // private String commonPart="http://10.0.2.2:8080/hungama/"; //
 
 

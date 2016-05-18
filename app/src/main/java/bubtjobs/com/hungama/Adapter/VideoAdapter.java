@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import bubtjobs.com.hungama.Activity.VideoPlayer;
 import bubtjobs.com.hungama.Model.Video;
+import bubtjobs.com.hungama.Others.CommonFunction;
 import bubtjobs.com.hungama.Others.Common_Url;
 import bubtjobs.com.hungama.R;
 
@@ -28,6 +29,7 @@ public class VideoAdapter extends ArrayAdapter<Video> {
     private ArrayList<Video> videoList;
     private Context context;
     Common_Url common_url;
+    CommonFunction commonFunction;
 
 
     public VideoAdapter(Context context, ArrayList<Video> videoList) {
@@ -35,6 +37,7 @@ public class VideoAdapter extends ArrayAdapter<Video> {
         this.context = context;
         this.videoList = videoList;
         common_url=new Common_Url();
+        commonFunction=new CommonFunction();
 
     }
 
@@ -85,14 +88,20 @@ public class VideoAdapter extends ArrayAdapter<Video> {
         viewHolder.video_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  Toast.makeText(context, ""+videoList.get(position).getFileName()+" === size "+videoList.size(), Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(context, VideoPlayer.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("postion", String.valueOf(position));
-                intent.putExtra("fileName",videoList.get(position).getFileName());
-                intent.putExtra("songName",videoList.get(position).getSongName());
-                intent.putExtra("movieName",videoList.get(position).getMovieName());
-                context.startActivity(intent);
+                //  Toast.makeText(context, ""+videoList.get(position).getFileName()+" === size "+videoList.size(), Toast.LENGTH_SHORT).show();
+
+                if (commonFunction.isNetworkAvailable(context)) {
+                    Intent intent = new Intent(context, VideoPlayer.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("postion", String.valueOf(position));
+                    intent.putExtra("fileName", videoList.get(position).getFileName());
+                    intent.putExtra("songName", videoList.get(position).getSongName());
+                    intent.putExtra("movieName", videoList.get(position).getMovieName());
+                    context.startActivity(intent);
+                } else {
+                    Toast.makeText(context, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
 
             }
         });
