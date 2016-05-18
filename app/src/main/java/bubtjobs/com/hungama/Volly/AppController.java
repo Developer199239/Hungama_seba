@@ -6,9 +6,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-/**
- * Created by BITM Trainer 401 on 3/28/2016.
- */
+
 public class AppController extends Application {
 
     private static AppController instance;
